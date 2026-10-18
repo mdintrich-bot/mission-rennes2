@@ -716,18 +716,27 @@ function App() {
                 </button>
 
                 {/* Left side: Video player or High-res image */}
-                <div style={{ background: '#050505', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--border-color)', minHeight: '380px', overflow: 'hidden' }}>
+                <div style={{ 
+                  background: '#050505', 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  border: '1px solid var(--border-color)', 
+                  height: '100%', 
+                  width: '100%',
+                  minHeight: '480px',
+                  overflow: 'hidden' 
+                }}>
                   {activeModalProject.videoUrl ? (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', flex: 1 }}>
                       <iframe 
                         src={activeModalProject.videoUrl} 
                         title={activeModalProject.title} 
-                        style={{ width: '100%', height: '400px', border: 'none' }}
+                        style={{ width: '100%', height: '100%', flex: 1, minHeight: '460px', border: 'none', display: 'block' }}
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                         allowFullScreen 
                       />
                       {activeModalProject.youtubeLink && (
-                        <div style={{ padding: '0.75rem', background: '#111', display: 'flex', justifyContent: 'center', borderTop: '1px solid #222' }}>
+                        <div style={{ padding: '0.85rem', background: '#111', display: 'flex', justifyContent: 'center', borderTop: '1px solid #222', flexShrink: 0, marginTop: 'auto' }}>
                           <a 
                             href={activeModalProject.youtubeLink} 
                             target="_blank" 
@@ -740,11 +749,13 @@ function App() {
                       )}
                     </div>
                   ) : (
-                    <img 
-                      src={activeModalProject.image} 
-                      alt={activeModalProject.title} 
-                      style={{ maxWidth: '100%', maxHeight: '75vh', objectFit: 'contain' }}
-                    />
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 1, padding: '1rem' }}>
+                      <img 
+                        src={activeModalProject.image} 
+                        alt={activeModalProject.title} 
+                        style={{ maxWidth: '100%', maxHeight: '75vh', objectFit: 'contain' }}
+                      />
+                    </div>
                   )}
                 </div>
 
