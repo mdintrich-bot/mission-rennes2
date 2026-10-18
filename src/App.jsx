@@ -14,6 +14,7 @@ import {
   Eye, 
   Sparkles, 
   X, 
+  Play,
   Briefcase, 
   GraduationCap, 
   Calendar,
@@ -637,6 +638,13 @@ function App() {
               >
                 <div className="img-wrapper">
                   <img src={proj.image} alt={proj.title} loading="lazy" />
+                  {proj.isVideo && (
+                    <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0, 0, 0, 0.4)' }}>
+                      <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: 'rgba(0, 240, 255, 0.95)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 25px var(--accent-glow)' }}>
+                        <Play size={24} color="#050505" fill="#050505" style={{ marginLeft: '3px' }} />
+                      </div>
+                    </div>
+                  )}
                   <div style={{ position: 'absolute', top: '0.75rem', right: '0.75rem', background: 'rgba(5, 5, 5, 0.85)', padding: '0.35rem 0.75rem', borderRadius: '2px', fontSize: '0.75rem', color: 'var(--accent-color)', fontWeight: 'bold', border: '1px solid rgba(0, 240, 255, 0.3)' }}>
                     {proj.tag}
                   </div>
@@ -667,7 +675,7 @@ function App() {
                       ))}
                     </div>
                     <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem', color: 'var(--accent-color)', fontSize: '0.85rem', fontWeight: 'bold' }}>
-                      DÉTAILS <Eye size={14} />
+                      {proj.isVideo ? 'VOIR LA VIDÉO' : 'DÉTAILS'} {proj.isVideo ? <Play size={14} fill="currentColor" /> : <Eye size={14} />}
                     </span>
                   </div>
                 </div>
@@ -707,13 +715,37 @@ function App() {
                   <X size={24} color="var(--accent-color)" />
                 </button>
 
-                {/* Left side: High-res image */}
-                <div style={{ background: '#050505', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--border-color)', minHeight: '380px' }}>
-                  <img 
-                    src={activeModalProject.image} 
-                    alt={activeModalProject.title} 
-                    style={{ maxWidth: '100%', maxHeight: '75vh', objectFit: 'contain' }}
-                  />
+                {/* Left side: Video player or High-res image */}
+                <div style={{ background: '#050505', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--border-color)', minHeight: '380px', overflow: 'hidden' }}>
+                  {activeModalProject.videoUrl ? (
+                    <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
+                      <iframe 
+                        src={activeModalProject.videoUrl} 
+                        title={activeModalProject.title} 
+                        style={{ width: '100%', height: '400px', border: 'none' }}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowFullScreen 
+                      />
+                      {activeModalProject.youtubeLink && (
+                        <div style={{ padding: '0.75rem', background: '#111', display: 'flex', justifyContent: 'center', borderTop: '1px solid #222' }}>
+                          <a 
+                            href={activeModalProject.youtubeLink} 
+                            target="_blank" 
+                            rel="noreferrer" 
+                            style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent-color)', fontSize: '0.85rem', textDecoration: 'none', fontWeight: 'bold' }}
+                          >
+                            VOIR LA VIDÉO SUR YOUTUBE <ExternalLink size={14} />
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <img 
+                      src={activeModalProject.image} 
+                      alt={activeModalProject.title} 
+                      style={{ maxWidth: '100%', maxHeight: '75vh', objectFit: 'contain' }}
+                    />
+                  )}
                 </div>
 
                 {/* Right side: Detailed presentation */}

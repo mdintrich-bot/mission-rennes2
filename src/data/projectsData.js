@@ -12,6 +12,21 @@ export const projects = [
     highlights: ['Vectorisation stylisée', 'Typographie sur-mesure', 'Identité visuelle rap français']
   },
   {
+    id: 'audiovisuel-asnl',
+    title: 'Vidéo Événementielle — Bornes MP44 à l’ASNL',
+    category: 'AUDIOVISUEL',
+    tag: 'Vidéo Terrain & ASNL',
+    date: 'Avril 2026',
+    context: 'Stage S3 — ATP Nancy Porte Nord',
+    image: './portfolio-images/Capture-decran-2026-06-16-092322.png',
+    isVideo: true,
+    videoUrl: 'https://www.youtube.com/embed/AbxWDwTvNMM',
+    youtubeLink: 'https://www.youtube.com/shorts/AbxWDwTvNMM',
+    description: "Tournage terrain lors du match de gala de l’ASNL pour mettre en valeur la présence et le fonctionnement des bornes interactives MP44. Montage dynamique court format réalisé sous Premiere Pro pour les réseaux sociaux.",
+    tools: ['Tournage terrain', 'Premiere Pro', 'Format 9:16', 'Prise de son'],
+    highlights: ['Captation en conditions réelles de match', 'Montage dynamique rythmé', 'Diffusion réseaux ATP Porte Nord']
+  },
+  {
     id: 'affiche-psg-auxerre',
     title: 'Affiche Matchday — PSG vs Auxerre',
     category: 'GRAPHISME',
@@ -34,6 +49,21 @@ export const projects = [
     description: "Conception d'une affiche de choc européen mettant en scène le duel Monaco - Manchester City. Travail approfondi sur les teintes néons, les éclairages dramatiques et la composition contrastée.",
     tools: ['Photoshop', 'Lighting design', 'Branding'],
     highlights: ['Ambiance nocturne', 'Gestion des lumières', 'Dualité chromatique']
+  },
+  {
+    id: 'audiovisuel-teaser-avenir',
+    title: 'Teaser Événementiel — 30 ans Avenir',
+    category: 'AUDIOVISUEL',
+    tag: 'Teaser Institutionnel',
+    date: 'Mai 2026',
+    context: 'Stage S3 — ATP Nancy Porte Nord',
+    image: './portfolio-images/Capture-decran-2026-06-16-092041.png',
+    isVideo: true,
+    videoUrl: 'https://www.youtube.com/embed/ykzQf2sEqfw',
+    youtubeLink: 'https://www.youtube.com/watch?v=ykzQf2sEqfw',
+    description: "Conception et montage d'un teaser vidéo promotionnel pour annoncer et susciter l'intérêt autour des 30 ans de l'association Avenir. Rythme dynamique et identité sonore sous Premiere Pro.",
+    tools: ['Premiere Pro', 'Montage vidéo', 'Narration visuelle'],
+    highlights: ['Dynamique de montage', 'Communication événementielle', 'Respect des délais']
   },
   {
     id: 'affiche-vitinha',
@@ -60,6 +90,21 @@ export const projects = [
     highlights: ['Message fort', 'Hiérarchie de lecture', 'Ciblage grand public']
   },
   {
+    id: 'audiovisuel-corteiz',
+    title: 'Vidéo Streetwear — Arrivage Corteiz',
+    category: 'AUDIOVISUEL',
+    tag: 'Vidéo TikTok & Reels',
+    date: 'Mars 2025',
+    context: 'Stage S2 — Boutique Hatshop Nancy',
+    image: './portfolio-images/Capture-decran-2026-06-16-092811.png',
+    isVideo: true,
+    videoUrl: 'https://www.youtube.com/embed/tt3LJb0TKX4',
+    youtubeLink: 'https://www.youtube.com/shorts/tt3LJb0TKX4',
+    description: "Tournage et montage court format pour promouvoir le nouvel arrivage de vêtements Corteiz sur TikTok et Instagram. Exploitation des codes et tendances de la culture streetwear.",
+    tools: ['Tournage smartphone', 'CapCut / Premiere Pro', 'Format 9:16'],
+    highlights: ['Codes urbains & streetwear', 'Format viral adapté mobile', 'Autonomie en boutique']
+  },
+  {
     id: 'affiche-larvfleuse',
     title: 'Affiche — La Rvfleuse',
     category: 'GRAPHISME',
@@ -84,6 +129,21 @@ export const projects = [
     highlights: ['170+ entreprises cibles', 'Rigueur typographique', 'Validation client']
   },
   {
+    id: 'audiovisuel-musique-lieu',
+    title: 'Création Audiovisuelle — Musique d’un lieu',
+    category: 'AUDIOVISUEL',
+    tag: 'Expérimentation Son & Vidéo',
+    date: 'Mars 2026',
+    context: 'Projet universitaire BUT MMI',
+    image: './portfolio-images/Capture-decran-2026-06-16-091902.png',
+    isVideo: true,
+    videoUrl: 'https://www.youtube.com/embed/d_rUN2PMTS0',
+    youtubeLink: 'https://www.youtube.com/watch?v=d_rUN2PMTS0',
+    description: "Projet immersif consistant à composer la musique d’un lieu uniquement à partir des sons environnementaux enregistrés, puis à réaliser un montage vidéo synchrone sous Premiere Pro.",
+    tools: ['Prise de son & vidéo', 'Premiere Pro', 'FL Studio'],
+    highlights: ['Créativité sonore et visuelle', 'Synchronisation précise', 'Travail d’équipe en BUT']
+  },
+  {
     id: 'strategie-com',
     title: 'Stratégie de Marque — Cahier des charges',
     category: 'COMMUNICATION',
@@ -106,18 +166,6 @@ export const projects = [
     description: "Expérimentation sur les temps de pose longs pour capturer le mouvement et les traînées lumineuses des flux urbains de nuit à Nancy.",
     tools: ['Boîtier reflex', 'Pose longue', 'Gestion de l’exposition'],
     highlights: ['Maîtrise de la lumière', 'Flou de mouvement cinétique', 'Sens du cadrage']
-  },
-  {
-    id: 'audiovisuel-atp',
-    title: 'Production Vidéo Événementielle & ASNL',
-    category: 'AUDIOVISUEL',
-    tag: 'Tournage terrain & Montage',
-    date: 'Avril – Juin 2026',
-    context: 'Stage ATP Nancy Porte Nord',
-    image: './portfolio-images/images-2.png',
-    description: "Prises de vue sur le terrain lors d'événements officiels et au match de gala de l'ASNL. Montage dynamique sous Premiere Pro, formats Reels & Stories pour les réseaux sociaux de l'association.",
-    tools: ['Premiere Pro', 'After Effects', 'Captation vidéo', 'Prise de son'],
-    highlights: ['Rythme & narration', 'Adaptation formats mobiles', 'Autonomie sur le terrain']
   }
 ];
 
