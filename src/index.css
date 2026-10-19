@@ -583,3 +583,376 @@ section {
   border-left: 2px solid var(--accent-color);
   padding-left: 0.75rem;
 }
+
+/* ========================================================= */
+/* NOUVEAU DESIGN SYSTEM : VEILLE & PROGRESSION ÉPURÉES      */
+/* ========================================================= */
+
+/* Segmented Control Tabs (Pills) */
+.segmented-tabs-wrapper {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
+
+.segmented-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1.4rem;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border-radius: 2px;
+}
+
+.segmented-tab-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.segmented-tab-btn.active {
+  background: rgba(0, 240, 255, 0.1);
+  color: var(--accent-color);
+  border-color: var(--accent-color);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+}
+
+.tab-count-badge {
+  padding: 0.15rem 0.45rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.segmented-tab-btn.active .tab-count-badge {
+  background: var(--accent-color);
+  color: #050505;
+}
+
+/* Bento Grid pour "Où j'en suis aujourd'hui" */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.bento-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.bento-card:hover {
+  border-color: rgba(0, 240, 255, 0.45);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.bento-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.bento-title {
+  font-size: 1.15rem;
+  color: #fff;
+  margin: 0;
+}
+
+.bento-tool-pill {
+  font-size: 0.75rem;
+  color: var(--accent-color);
+  background: rgba(0, 240, 255, 0.06);
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  padding: 0.2rem 0.5rem;
+  border-radius: 2px;
+  font-weight: 600;
+  width: fit-content;
+}
+
+.bento-highlight {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.bento-tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+.bento-tag {
+  font-size: 0.72rem;
+  color: #aaa;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid #2a2d34;
+  padding: 0.15rem 0.45rem;
+  border-radius: 2px;
+}
+
+/* ========================================================= */
+/* HUB DE VEILLE SYNTHÉTIQUE & PRATIQUE                     */
+/* ========================================================= */
+
+.veille-hub-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 2rem;
+  position: relative;
+  transition: border-color 0.3s ease;
+}
+
+.veille-hub-box:hover {
+  border-color: rgba(0, 240, 255, 0.3);
+}
+
+/* Mini workflow step strip */
+.compact-workflow-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: rgba(0, 240, 255, 0.03);
+  border: 1px solid rgba(0, 240, 255, 0.15);
+  margin-bottom: 2rem;
+}
+
+.compact-workflow-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #ddd;
+  letter-spacing: 0.08em;
+}
+
+.compact-workflow-num {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--accent-color);
+}
+
+/* Outils Cards Compactes */
+.tools-compact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.tool-compact-card {
+  background: #0a0b0e;
+  border: 1px solid var(--border-color);
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.tool-compact-card:hover {
+  border-color: var(--accent-color);
+  transform: translateY(-2px);
+}
+
+.tool-compact-badge {
+  font-size: 0.7rem;
+  color: var(--accent-color);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Étude Vérifiée Compacte */
+.study-compact-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.75rem;
+  background: #090a0d;
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  padding: 1.75rem;
+}
+
+@media (max-width: 900px) {
+  .study-compact-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.study-left-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.study-right-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.study-sub-card {
+  background: rgba(255, 255, 255, 0.02);
+  border-left: 3px solid var(--accent-color);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+/* Axes de Recherche Compacts */
+.axes-compact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.axis-compact-card {
+  background: #090a0d;
+  border: 1px solid var(--border-color);
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: all 0.25s ease;
+}
+
+.axis-compact-card:hover {
+  border-color: #ffb74d;
+  transform: translateY(-2px);
+}
+
+/* Synergie Veille -> Progression Bar */
+.synergy-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  background: rgba(0, 240, 255, 0.04);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  padding: 1.2rem 1.5rem;
+  margin-top: 2rem;
+}
+
+.synergy-flow-text {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #ccc;
+  flex-wrap: wrap;
+}
+
+.synergy-flow-item {
+  color: #fff;
+  font-weight: 700;
+}
+
+.synergy-flow-item.accent {
+  color: var(--accent-color);
+}
+
+/* Roadmap Grid */
+.roadmap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.25rem;
+  margin: 2rem 0;
+}
+
+.roadmap-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.roadmap-card:hover {
+  border-color: var(--accent-color);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+}
+
+.roadmap-step-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.roadmap-step-num {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--accent-color);
+}
+
+.roadmap-status-badge {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 2px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.roadmap-actions-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.roadmap-action-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.roadmap-deliverable-box {
+  background: rgba(0, 240, 255, 0.04);
+  border-left: 2px solid var(--accent-color);
+  padding: 0.65rem;
+  font-size: 0.8rem;
+  color: #ddd;
+  margin-top: auto;
+}
+
+

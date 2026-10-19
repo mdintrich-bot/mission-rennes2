@@ -3,12 +3,10 @@ import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import { 
   ChevronRight, 
   ArrowRight, 
-  CheckSquare, 
   Target, 
   PenTool, 
   Layout, 
   MonitorPlay, 
-  Zap, 
   ExternalLink, 
   Download, 
   Eye, 
@@ -20,20 +18,21 @@ import {
   Calendar,
   Building,
   Award,
-  BookOpen,
   Search,
   CheckCircle2,
   Layers,
   Cpu,
-  Clock,
   TrendingUp,
   Workflow,
   Network,
   Compass,
-  FileText,
-  Lightbulb
+  Rss,
+  Bell,
+  BookOpen
 } from 'lucide-react';
-import { projects, skillsList, experiences } from './data/projectsData';
+import { projects, experiences } from './data/projectsData';
+import { currentStateData, roadmapSteps } from './data/progressionData';
+import { veilleTools, verifiedStudy, researchAxes, veilleWorkflowSteps } from './data/veilleData';
 import './index.css';
 
 const navItems = [
@@ -45,7 +44,7 @@ const navItems = [
   { id: 'lien-projet', label: '05 / IMPACT PRO' },
   { id: 'parcours', label: '06 / PARCOURS' },
   { id: 'veille', label: '07 / VEILLE' },
-  { id: 'methodologie', label: '08 / MÉTHODOLOGIE' },
+  { id: 'methodologie', label: '08 / ROADMAP & PROGRESSION' },
   { id: 'outils', label: '09 / OUTILS' },
   { id: 'portfolio', label: '10 / DOSSIER' },
   { id: 'conclusion', label: '11 / PERSPECTIVES' },
@@ -79,6 +78,11 @@ function App() {
   const [activeSection, setActiveSection] = useState('hero');
   const [selectedCategory, setSelectedCategory] = useState('ALL');
   const [activeModalProject, setActiveModalProject] = useState(null);
+
+  // États interactifs pour les onglets bento et hub de veille
+  const [activeStatusTab, setActiveStatusTab] = useState('bases');
+  const [activeVeilleTab, setActiveVeilleTab] = useState('outils');
+  const [activeRoadmapStep, setActiveRoadmapStep] = useState('CONSOLIDER');
 
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
@@ -292,29 +296,101 @@ function App() {
             </div>
           </div>
 
-          {/* Software & Skills Badges */}
-          <div>
-            <h4 style={{ fontSize: '1.3rem', letterSpacing: '0.1em', marginBottom: '1.5rem', color: 'var(--text-primary)' }}>
-              COMPÉTENCES OPÉRATIONNELLES MOBILISÉES POUR LE MASTER
-            </h4>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.5rem' }}>
-              {skillsList.map((skill, i) => (
-                <motion.div 
-                  key={i} 
-                  className="card" 
-                  whileHover={{ y: -5 }}
-                  style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}
-                >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <h5 style={{ fontSize: '1.15rem', color: 'var(--text-primary)' }}>{skill.name}</h5>
-                    <span style={{ color: 'var(--accent-color)', fontWeight: 'bold', fontSize: '0.85rem' }}>{skill.score}</span>
-                  </div>
-                  <div style={{ color: 'var(--accent-color)', fontSize: '0.85rem', fontWeight: 'bold' }}>
-                    {skill.tools}
-                  </div>
-                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', lineHeight: 1.5 }}>
-                    {skill.desc}
+          {/* Où j'en suis aujourd'hui : Navigation par onglets interactifs & Bento Grid épurée */}
+          <div style={{ marginTop: '3rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem' }}>
+              <div>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent-color)', fontSize: '0.82rem', fontWeight: 'bold', letterSpacing: '0.15em', marginBottom: '0.4rem' }}>
+                  <Compass size={16} /> ÉTAT DES LIEUX OBJECTIF DU PARCOURS
+                </div>
+                <h3 style={{ fontSize: '1.85rem', color: 'var(--text-primary)' }}>
+                  OÙ J'EN SUIS AUJOURD'HUI
+                </h3>
+              </div>
+              <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', background: 'rgba(255,255,255,0.03)', padding: '0.4rem 0.8rem', border: '1px solid var(--border-color)', borderRadius: '2px' }}>
+                3 PILIERS D'ÉVALUATION · NAVIGATION INTERACTIVE
+              </div>
+            </div>
+
+            {/* Segmented Tabs Bar */}
+            <div className="segmented-tabs-wrapper">
+              <button
+                type="button"
+                className={`segmented-tab-btn ${activeStatusTab === 'bases' ? 'active' : ''}`}
+                onClick={() => setActiveStatusTab('bases')}
+              >
+                <CheckCircle2 size={16} color={activeStatusTab === 'bases' ? 'var(--accent-color)' : 'var(--text-secondary)'} />
+                <span>1. MES BASES ACTUELLES</span>
+                <span className="tab-count-badge">{currentStateData.bases.items.length}</span>
+              </button>
+
+              <button
+                type="button"
+                className={`segmented-tab-btn ${activeStatusTab === 'approfondir' ? 'active' : ''}`}
+                onClick={() => setActiveStatusTab('approfondir')}
+                style={activeStatusTab === 'approfondir' ? { borderColor: '#ffb74d', color: '#ffb74d', background: 'rgba(255, 183, 77, 0.1)' } : {}}
+              >
+                <TrendingUp size={16} color={activeStatusTab === 'approfondir' ? '#ffb74d' : 'var(--text-secondary)'} />
+                <span>2. À APPROFONDIR</span>
+                <span className="tab-count-badge" style={activeStatusTab === 'approfondir' ? { background: '#ffb74d', color: '#000' } : {}}>{currentStateData.approfondir.items.length}</span>
+              </button>
+
+              <button
+                type="button"
+                className={`segmented-tab-btn ${activeStatusTab === 'prochaines' ? 'active' : ''}`}
+                onClick={() => setActiveStatusTab('prochaines')}
+                style={activeStatusTab === 'prochaines' ? { borderColor: '#00e676', color: '#00e676', background: 'rgba(0, 230, 118, 0.1)' } : {}}
+              >
+                <Target size={16} color={activeStatusTab === 'prochaines' ? '#00e676' : 'var(--text-secondary)'} />
+                <span>3. PROCHAINES ÉTAPES</span>
+                <span className="tab-count-badge" style={activeStatusTab === 'prochaines' ? { background: '#00e676', color: '#000' } : {}}>{currentStateData.prochainesEtapes.items.length}</span>
+              </button>
+            </div>
+
+            {/* Active Tab Header Context */}
+            {(() => {
+              const currentCategory = activeStatusTab === 'bases' 
+                ? currentStateData.bases 
+                : activeStatusTab === 'approfondir' 
+                  ? currentStateData.approfondir 
+                  : currentStateData.prochainesEtapes;
+              return (
+                <div style={{ marginBottom: '1.25rem', padding: '0.9rem 1.25rem', background: 'rgba(255, 255, 255, 0.02)', borderLeft: `3px solid ${currentCategory.accentColor}`, borderTop: '1px solid var(--border-color)', borderRight: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', margin: 0, lineHeight: 1.5 }}>
+                    {currentCategory.summary}
                   </p>
+                  <span style={{ fontSize: '0.74rem', fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', color: currentCategory.accentColor, background: 'rgba(255,255,255,0.04)', padding: '0.25rem 0.6rem', border: `1px solid ${currentCategory.accentColor}`, borderRadius: '2px' }}>
+                    {currentCategory.badge}
+                  </span>
+                </div>
+              );
+            })()}
+
+            {/* Bento Grid */}
+            <div className="bento-grid">
+              {(activeStatusTab === 'bases' 
+                ? currentStateData.bases.items 
+                : activeStatusTab === 'approfondir' 
+                  ? currentStateData.approfondir.items 
+                  : currentStateData.prochainesEtapes.items
+              ).map((item, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.25, delay: idx * 0.04 }}
+                  className="bento-card"
+                >
+                  <div className="bento-card-header">
+                    <h4 className="bento-title">{item.title}</h4>
+                    <span className="bento-tool-pill">{item.tools}</span>
+                  </div>
+                  <p className="bento-highlight">{item.highlight}</p>
+                  <div className="bento-tags-row">
+                    {item.tags.map((tag, tIdx) => (
+                      <span key={tIdx} className="bento-tag">#{tag}</span>
+                    ))}
+                  </div>
                 </motion.div>
               ))}
             </div>
@@ -794,125 +870,429 @@ function App() {
         </section>
 
         {/* ========================================================= */}
-        {/* 07 IMPORTANCE DE LA VEILLE ACTIVE (POINT 3 · 3 POINTS)     */}
+        {/* 07 DÉMARCHE DE VEILLE INFORMATIONNELLE (POINT 3 · 3 PTS)  */}
         {/* ========================================================= */}
         <section id="veille">
           <SectionHeader 
             num="07" 
-            title="IMPORTANCE DE LA VEILLE INFORMATIONNELLE" 
-            subtitle="Méthodologie et compréhension d’une veille active continue sur l'entreprise, les secteurs créatifs, les innovations et l'IA générative."
+            title="DÉMARCHE DE VEILLE INFORMATIONNELLE" 
+            subtitle="Protocole de recherche raisonnée, analyse critique de l'IA et application concrète au Master Création Numérique."
             rubricBadge={{ score: "3 POINTS", text: "Point 3 du barème universitaire" }}
           />
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+
+          <div className="veille-hub-box">
             
-            <div className="card glass-panel" style={{ padding: '2rem', borderLeft: '4px solid var(--accent-color)' }}>
-              <h3 style={{ fontSize: '1.6rem', color: 'var(--text-primary)', marginBottom: '1rem' }}>
-                POURQUOI LA VEILLE ACTIVE EST INDISPENSABLE POUR L'ADMISSION EN MASTER ?
-              </h3>
-              <p style={{ color: 'var(--text-secondary)', lineHeight: 1.7, fontSize: '1.05rem', marginBottom: '1rem' }}>
-                Un candidat en Master Création Numérique ne peut pas se contenter d'imiter des recettes visuelles existantes. La veille informationnelle active permet d'alimenter la <strong>culture générale du design</strong>, d'anticiper les <strong>mutations technologiques (IA générative)</strong> et de comprendre les <strong>attentes du marché des agences</strong> afin d'arriver à l'oral d'admission avec un esprit critique aiguisé.
-              </p>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.5rem' }}>
-              {[
-                { 
-                  title: '01 · VEILLE SECTEUR & AGENCES', 
-                  tools: 'LinkedIn · Behance · Agences Rennaises',
-                  desc: 'Étude continue des campagnes des agences de branding de référence, des lauréats des festivals de design et du tissu créatif rennais (French Tech, Electroni[k]).' 
-                },
-                { 
-                  title: '02 · VEILLE INNOVATIONS & IA', 
-                  tools: 'Feedly · Google Alerts · Discord IA',
-                  desc: 'Suivi quotidien des modèles génératifs d’images et de vidéo (Adobe Firefly, Midjourney, Sora) pour les intégrer intelligemment dans un workflow de DA sans perdre la signature humaine.' 
-                },
-                { 
-                  title: '03 · VEILLE CULTURE & GRAPHISME', 
-                  tools: 'Savee · Instagram · Revue Étapes',
-                  desc: 'Veille sur les tendances de la typographie variable, des trames d’impression risographie, de la scénographie de concert et du cover art contemporain.' 
-                }
-              ].map((src, i) => (
-                <div key={i} className="card" style={{ borderTop: '4px solid var(--accent-color)' }}>
-                  <div style={{ color: 'var(--accent-color)', fontSize: '0.8rem', fontWeight: 'bold', marginBottom: '0.4rem' }}>{src.tools}</div>
-                  <h4 style={{ fontSize: '1.35rem', marginBottom: '0.8rem', color: '#fff' }}>{src.title}</h4>
-                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.6 }}>{src.desc}</p>
-                </div>
+            {/* Ruban Méthodologique Compact en 4 étapes */}
+            <div className="compact-workflow-strip">
+              {veilleWorkflowSteps.map((step, i) => (
+                <React.Fragment key={i}>
+                  <div className="compact-workflow-item">
+                    <span className="compact-workflow-num">{step.num}</span>
+                    <div>
+                      <div style={{ color: '#fff', fontSize: '0.82rem', fontWeight: 'bold' }}>{step.label}</div>
+                      <div style={{ color: '#888', fontSize: '0.72rem' }}>{step.desc}</div>
+                    </div>
+                  </div>
+                  {i < veilleWorkflowSteps.length - 1 && (
+                    <ArrowRight size={14} color="var(--accent-color)" style={{ opacity: 0.5, flexShrink: 0 }} />
+                  )}
+                </React.Fragment>
               ))}
             </div>
 
-            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginTop: '1rem' }}>
-              {[
-                'IA générative et composition graphique',
-                'Évolution du rôle du Directeur Artistique',
-                'Typographie augmentée & Motion design procédural',
-                'Nouveaux outils Suite Adobe Firefly & Premiere IA',
-                'Éthique visuelle & Propriété intellectuelle en design',
-                'Écosystème numérique breton & French Tech Rennes'
-              ].map((tag, i) => (
-                <div key={i} style={{ padding: '0.5rem 1rem', background: '#0e0f12', border: '1px solid #2a2d34', borderRadius: '2px', fontSize: '0.88rem', color: '#ccc' }}>
-                  # {tag}
-                </div>
-              ))}
+            {/* Onglets Interactifs du Hub de Veille */}
+            <div className="segmented-tabs-wrapper" style={{ margin: '1.5rem 0' }}>
+              <button
+                type="button"
+                className={`segmented-tab-btn ${activeVeilleTab === 'outils' ? 'active' : ''}`}
+                onClick={() => setActiveVeilleTab('outils')}
+              >
+                <Search size={16} />
+                <span>01 · MES 3 OUTILS DE VEILLE</span>
+                <span className="tab-count-badge">3</span>
+              </button>
+
+              <button
+                type="button"
+                className={`segmented-tab-btn ${activeVeilleTab === 'etude' ? 'active' : ''}`}
+                onClick={() => setActiveVeilleTab('etude')}
+              >
+                <BookOpen size={16} />
+                <span>02 · ÉTUDE DE CAS VÉRIFIÉE (NN/G)</span>
+                <span className="tab-count-badge" style={{ background: 'var(--accent-color)', color: '#000' }}>VÉRIFIÉ</span>
+              </button>
+
+              <button
+                type="button"
+                className={`segmented-tab-btn ${activeVeilleTab === 'axes' ? 'active' : ''}`}
+                onClick={() => setActiveVeilleTab('axes')}
+              >
+                <Compass size={16} />
+                <span>03 · 3 AXES DE RECHERCHE</span>
+                <span className="tab-count-badge">3</span>
+              </button>
+            </div>
+
+            {/* CONTENU ONGLETS */}
+            <AnimatePresence mode="wait">
+              {/* ONGLET 1 : LES 3 OUTILS DE VEILLE */}
+              {activeVeilleTab === 'outils' && (
+                <motion.div
+                  key="tab-outils"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2 }}
+                  className="tools-compact-grid"
+                >
+                  {veilleTools.map((tool) => (
+                    <div key={tool.id} className="tool-compact-card">
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                          {tool.id === 'feedly' && <Rss size={20} color="var(--accent-color)" />}
+                          {tool.id === 'alerts' && <Bell size={20} color="var(--accent-color)" />}
+                          {tool.id === 'linkedin' && (
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                              <rect x="2" y="9" width="4" height="12" />
+                              <circle cx="4" cy="4" r="2" />
+                            </svg>
+                          )}
+                          <h4 style={{ fontSize: '1.25rem', color: '#fff', margin: 0 }}>{tool.name}</h4>
+                        </div>
+                        <span className="tool-compact-badge">{tool.badge}</span>
+                      </div>
+
+                      <div style={{ fontSize: '0.75rem', color: '#888', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                        {tool.category}
+                      </div>
+
+                      <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', lineHeight: 1.5, margin: 0 }}>
+                        {tool.tagline}
+                      </p>
+
+                      <div style={{ background: 'rgba(255, 255, 255, 0.02)', padding: '0.75rem', borderLeft: '2px solid var(--accent-color)', marginTop: '0.25rem' }}>
+                        <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--accent-color)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>
+                          {tool.id === 'feedly' ? 'Flux suivis :' : tool.id === 'alerts' ? 'Requêtes ciblées :' : 'Écosystème ciblé :'}
+                        </span>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem' }}>
+                          {(tool.sources || tool.queries || tool.networkFollowed || []).map((item, idx) => (
+                            <span key={idx} className="bento-tag" style={{ fontSize: '0.7rem' }}>
+                              {item}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div style={{ marginTop: 'auto', paddingTop: '0.6rem', borderTop: '1px solid var(--border-color)', fontSize: '0.8rem', color: '#ccc', lineHeight: 1.45 }}>
+                        <strong style={{ color: '#00e676', fontSize: '0.72rem', letterSpacing: '0.06em', textTransform: 'uppercase', display: 'block', marginBottom: '0.2rem' }}>
+                          Impact pour mon projet :
+                        </strong>
+                        {tool.concreteBenefit}
+                      </div>
+                    </div>
+                  ))}
+                </motion.div>
+              )}
+
+              {/* ONGLET 2 : CAS PRATIQUE NN/G */}
+              {activeVeilleTab === 'etude' && (
+                <motion.div
+                  key="tab-etude"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2 }}
+                  className="study-compact-layout"
+                >
+                  {/* Left Column: Context & Metadata */}
+                  <div className="study-left-pane">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
+                      <span className="verified-source-badge" style={{ fontSize: '0.75rem', padding: '0.3rem 0.6rem' }}>
+                        <CheckCircle2 size={13} /> {verifiedStudy.status}
+                      </span>
+                      <a
+                        href={verifiedStudy.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="btn-primary"
+                        style={{ padding: '0.35rem 0.75rem', fontSize: '0.75rem', gap: '0.4rem', textDecoration: 'none' }}
+                      >
+                        VOIR SUR NN/G <ExternalLink size={13} />
+                      </a>
+                    </div>
+
+                    <h4 style={{ fontSize: '1.4rem', color: '#fff', margin: '0.3rem 0' }}>
+                      « {verifiedStudy.title} »
+                    </h4>
+
+                    <div style={{ fontSize: '0.82rem', color: 'var(--accent-color)', fontWeight: 600 }}>
+                      {verifiedStudy.author} · {verifiedStudy.sourceOrg}
+                    </div>
+
+                    <div className="study-sub-card">
+                      <strong style={{ fontSize: '0.75rem', color: '#ffb74d', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                        01 · Le constat théorique clé (NN/g)
+                      </strong>
+                      <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', lineHeight: 1.55, margin: 0 }}>
+                        {verifiedStudy.keyFindings}
+                      </p>
+                    </div>
+
+                    <div className="study-sub-card" style={{ borderLeftColor: 'var(--accent-color)' }}>
+                      <strong style={{ fontSize: '0.75rem', color: 'var(--accent-color)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                        02 · Mon analyse critique de futur designer
+                      </strong>
+                      <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', lineHeight: 1.55, margin: 0 }}>
+                        {verifiedStudy.personalAnalysis}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Right Column: Direct Applications to Master */}
+                  <div className="study-right-pane">
+                    <div style={{ background: 'rgba(0, 230, 118, 0.05)', border: '1px solid rgba(0, 230, 118, 0.25)', padding: '1.25rem', borderRadius: '2px', height: '100%', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#00e676', fontWeight: 'bold', fontSize: '0.85rem', letterSpacing: '0.08em' }}>
+                        <Target size={16} /> 03 · APPLICATION CONCRÈTE AU MASTER RENNES 2
+                      </div>
+
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+                        <div style={{ borderLeft: '2px solid #00e676', paddingLeft: '0.75rem' }}>
+                          <span style={{ fontSize: '0.72rem', color: '#00e676', fontWeight: 800, textTransform: 'uppercase', display: 'block' }}>Compétence ciblée</span>
+                          <p style={{ fontSize: '0.84rem', color: '#ddd', margin: '0.2rem 0 0 0', lineHeight: 1.45 }}>{verifiedStudy.projectApplication.skill}</p>
+                        </div>
+
+                        <div style={{ borderLeft: '2px solid #00e676', paddingLeft: '0.75rem' }}>
+                          <span style={{ fontSize: '0.72rem', color: '#00e676', fontWeight: 800, textTransform: 'uppercase', display: 'block' }}>Projet de portfolio</span>
+                          <p style={{ fontSize: '0.84rem', color: '#ddd', margin: '0.2rem 0 0 0', lineHeight: 1.45 }}>{verifiedStudy.projectApplication.portfolioProject}</p>
+                        </div>
+
+                        <div style={{ borderLeft: '2px solid #00e676', paddingLeft: '0.75rem' }}>
+                          <span style={{ fontSize: '0.72rem', color: '#00e676', fontWeight: 800, textTransform: 'uppercase', display: 'block' }}>Oral d'admission</span>
+                          <p style={{ fontSize: '0.84rem', color: '#ddd', margin: '0.2rem 0 0 0', lineHeight: 1.45 }}>{verifiedStudy.projectApplication.masterApplication}</p>
+                        </div>
+                      </div>
+
+                      <div style={{ marginTop: 'auto', background: 'rgba(0,0,0,0.4)', padding: '0.75rem', border: '1px solid rgba(255,255,255,0.06)', fontSize: '0.78rem', color: '#aaa', lineHeight: 1.4 }}>
+                        <strong style={{ color: '#fff' }}>Preuve d'autonomie intellectuelle :</strong> Capacité à mobiliser la recherche internationale sur les paradigmes d'interface pour orienter sa pratique plastique et technique.
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* ONGLET 3 : 3 AXES DE RECHERCHE */}
+              {activeVeilleTab === 'axes' && (
+                <motion.div
+                  key="tab-axes"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2 }}
+                  className="axes-compact-grid"
+                >
+                  {researchAxes.map((axis) => (
+                    <div key={axis.id} className="axis-compact-card">
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span className="axis-status-tag">{axis.badge}</span>
+                        <Compass size={16} color="var(--accent-color)" />
+                      </div>
+
+                      <h4 style={{ fontSize: '1.25rem', color: '#fff', margin: 0 }}>{axis.title}</h4>
+                      <div style={{ fontSize: '0.8rem', color: 'var(--accent-color)', fontWeight: 600 }}>
+                        {axis.subtitle}
+                      </div>
+
+                      <div style={{ background: 'rgba(255, 255, 255, 0.02)', padding: '0.75rem', borderLeft: '2px solid #ffb74d' }}>
+                        <span style={{ fontSize: '0.7rem', color: '#ffb74d', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', marginBottom: '0.2rem' }}>
+                          Question de recherche :
+                        </span>
+                        <p style={{ fontSize: '0.82rem', color: '#ddd', fontStyle: 'italic', margin: 0, lineHeight: 1.45 }}>
+                          « {axis.question} »
+                        </p>
+                      </div>
+
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem' }}>
+                        {axis.keywords.map((kw, idx) => (
+                          <span key={idx} className="bento-tag">
+                            #{kw}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div style={{ marginTop: 'auto', paddingTop: '0.6rem', borderTop: '1px solid var(--border-color)', fontSize: '0.8rem', color: 'var(--text-secondary)', lineHeight: 1.4 }}>
+                        <strong style={{ color: '#00e676', fontSize: '0.72rem', letterSpacing: '0.06em', textTransform: 'uppercase', display: 'block', marginBottom: '0.2rem' }}>
+                          Intérêt pour mon projet :
+                        </strong>
+                        {axis.projectRelevance}
+                      </div>
+                    </div>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Ruban Synergie Méthodologique */}
+            <div className="synergy-strip">
+              <div className="synergy-flow-text">
+                <span className="synergy-flow-item accent">SYNERGIE MÉTHODOLOGIQUE :</span>
+                <span>Curation active</span>
+                <span>➔</span>
+                <span>Analyse critique (NN/g)</span>
+                <span>➔</span>
+                <span className="synergy-flow-item">Feuille de route Master</span>
+              </div>
+              <button
+                type="button"
+                className="btn-primary"
+                onClick={() => document.getElementById('methodologie')?.scrollIntoView({ behavior: 'smooth' })}
+                style={{ padding: '0.5rem 1.1rem', fontSize: '0.82rem', display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}
+              >
+                VOIR LA PROGRESSION PROFESSIONNELLE (SECTION 08) <ArrowRight size={14} />
+              </button>
             </div>
 
           </div>
         </section>
 
         {/* ========================================================= */}
-        {/* 08 MÉTHODOLOGIE & GANTT (POINT 4 DU BARÈME · 3 POINTS)     */}
+        {/* 08 MÉTHODOLOGIE & ROADMAP PROFESSIONNELLE (POINT 4 · 3 PTS)*/}
         {/* ========================================================= */}
         <section id="methodologie">
           <SectionHeader 
             num="08" 
-            title="MÉTHODOLOGIE ET PLAN DE TRAVAIL" 
-            subtitle="Structuration rigoureuse du projet d'admission : rétroplanning jalonné par étapes (Gantt) et démarche de gestion de projet."
+            title="MÉTHODOLOGIE ET PROGRESSION PROFESSIONNELLE" 
+            subtitle="Feuille de route actionnable en 4 étapes concrètes : Consolider, Expérimenter, Valoriser et Candidater."
             rubricBadge={{ score: "3 POINTS", text: "Point 4 du barème universitaire" }}
           />
 
-          <div className="card glass-panel" style={{ padding: '2rem', marginBottom: '2.5rem', borderLeft: '4px solid var(--accent-color)' }}>
-            <h3 style={{ fontSize: '1.6rem', color: 'var(--text-primary)', marginBottom: '1rem' }}>
-              DÉMARCHE DE GESTION DE PROJET APPLIQUÉE À LA CANDIDATURE
-            </h3>
-            <p style={{ color: 'var(--text-secondary)', lineHeight: 1.7, fontSize: '1.05rem' }}>
-              L'intégration en Master Création Numérique et la recherche d’une alternance de 2 ans ont été pilotées selon une méthodologie rigoureuse de gestion de projet : <strong>Audit initial des besoins → Conception des supports de preuve → Planification temporelle stricte → Tests et itérations</strong>.
-            </p>
-          </div>
-
-          {/* Stepper Timeline */}
-          <div className="timeline-stepper">
-            {[
-              {
-                step: '01',
-                period: 'JANVIER – FÉVRIER 2026',
-                title: 'DIAGNOSTIC & PRÉPARATION DU BOOK',
-                desc: 'Audit des critères de sélection de Rennes 2, curation des travaux BUT MMI, rédaction des fiches de synthèse de projets et mise en place de la veille automatisée.'
-              },
-              {
-                step: '02',
-                period: 'MARS – AVRIL 2026',
-                title: 'DOSSIER MONMASTER & PROSPECTION',
-                desc: 'Dépôt officiel sur la plateforme MonMaster, rédaction des lettres de motivation ciblées et lancement de la prospection d’alternance auprès des agences rennaises.'
-              },
-              {
-                step: '03',
-                period: 'MAI – JUIN 2026',
-                title: 'ENTRETIENS ORAL & CONTRACTUALISATION',
-                desc: 'Entraînement aux pitchs oraux d’admission, soutenance devant le jury universitaire Rennes 2 et finalisation du contrat d’apprentissage en agence créative.'
-              },
-              {
-                step: '04',
-                period: 'SEPTEMBRE 2026',
-                title: 'INTÉGRATION DU MASTER RENNES 2',
-                desc: 'Rentrée universitaire au sein du Master Création Numérique et prise de poste opérationnelle en alternance (rythme entreprise / université sur 24 mois).'
-              }
-            ].map((st, i) => (
-              <div key={i} className="step-card">
-                <div className="step-number">{st.step}</div>
-                <div className="step-period">{st.period}</div>
-                <h4 style={{ fontSize: '1.25rem', marginBottom: '0.8rem', color: '#fff' }}>{st.title}</h4>
-                <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.6 }}>{st.desc}</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+            
+            {/* Démarche fondée sur des actions réelles */}
+            <div className="card glass-panel" style={{ padding: '2rem', borderLeft: '4px solid var(--accent-color)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: 'var(--accent-color)', fontWeight: 'bold', fontSize: '0.85rem', marginBottom: '0.5rem', letterSpacing: '0.12em' }}>
+                <Workflow size={18} /> GESTION DE PROJET DE CANDIDATURE
               </div>
-            ))}
+              <h3 style={{ fontSize: '1.65rem', color: 'var(--text-primary)', marginBottom: '1rem' }}>
+                UNE PROGRESSION FONDÉE SUR DES ACTIONS ET DES LIVRABLES CONCRETS
+              </h3>
+              <p style={{ color: 'var(--text-secondary)', lineHeight: 1.7, fontSize: '1.02rem', marginBottom: '1rem' }}>
+                Pour garantir une transition réussie entre mon BUT MMI et le Master Création Numérique de Rennes 2 en alternance, j'ai banni tout indicateur arbitraire au profit d'une <strong>roadmap séquentielle jalonnée par des objectifs opérationnels</strong>. Cette stratégie relie directement les enseignements théoriques, les retours de ma veille active et les exigences de sélection universitaire.
+              </p>
+              <div style={{ padding: '0.75rem 1rem', background: 'rgba(255, 183, 77, 0.05)', border: '1px solid rgba(255, 183, 77, 0.25)', fontSize: '0.85rem', color: '#ffb74d' }}>
+                <strong>Précision méthodologique :</strong> Il s'agit d'une feuille de route active orientée résultats, et non d'un tableau d'acquis certifiés ou de résultats déjà bouclés.
+              </div>
+            </div>
+
+            {/* B. Les 4 étapes de la Roadmap */}
+            <div>
+              <div style={{ marginBottom: '1.25rem' }}>
+                <h4 style={{ fontSize: '1.35rem', color: '#fff', letterSpacing: '0.08em', marginBottom: '0.3rem' }}>
+                  LES QUATRE ÉTAPES DE MA FEUILLE DE ROUTE
+                </h4>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem' }}>
+                  Chaque étape est adossée à des actions spécifiques et aboutit à un livrable tangible évaluable par le jury.
+                </p>
+              </div>
+
+              <div className="roadmap-grid">
+                {roadmapSteps.map((st) => {
+                  const isSelected = activeRoadmapStep === st.code;
+                  return (
+                    <motion.div 
+                      key={st.code} 
+                      className="roadmap-card"
+                      style={{ 
+                        borderColor: isSelected ? 'var(--accent-color)' : 'var(--border-color)',
+                        background: isSelected ? 'rgba(18, 19, 22, 0.95)' : 'var(--bg-card)'
+                      }}
+                      onClick={() => setActiveRoadmapStep(st.code)}
+                      whileHover={{ y: -4 }}
+                    >
+                      <div className="roadmap-step-header">
+                        <div>
+                          <div className="roadmap-step-num">{st.step}</div>
+                          <div style={{ fontSize: '1.15rem', fontWeight: 'bold', color: '#fff', marginTop: '0.2rem' }}>
+                            {st.code}
+                          </div>
+                        </div>
+                        <span 
+                          className="roadmap-status-badge"
+                          style={{ 
+                            background: `rgba(0, 240, 255, 0.08)`, 
+                            color: st.statusBadgeColor, 
+                            border: `1px solid ${st.statusBadgeColor}` 
+                          }}
+                        >
+                          {st.status}
+                        </span>
+                      </div>
+
+                      <div style={{ fontSize: '0.78rem', color: '#888', fontWeight: 'bold', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                        Période : {st.period}
+                      </div>
+
+                      <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+                        {st.objective}
+                      </p>
+
+                      <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '0.8rem' }}>
+                        <strong style={{ display: 'block', fontSize: '0.78rem', color: 'var(--accent-color)', letterSpacing: '0.08em', marginBottom: '0.4rem', textTransform: 'uppercase' }}>
+                          Actions concrètes :
+                        </strong>
+                        <ul className="roadmap-actions-list">
+                          {st.concreteActions.map((act, idx) => (
+                            <li key={idx} className="roadmap-action-item">
+                              <ChevronRight size={14} color="var(--accent-color)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                              <span>{act}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <div className="roadmap-deliverable-box">
+                        <strong style={{ color: 'var(--accent-color)', display: 'block', marginBottom: '0.2rem' }}>LIVRABLE CONCRET :</strong>
+                        {st.deliverable}
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* C. Relier la Veille à cette progression (Boucle dynamique) */}
+            <div className="card glass-panel" style={{ padding: '2rem', border: '1px solid rgba(0, 240, 255, 0.3)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: 'var(--accent-color)', marginBottom: '1rem' }}>
+                <TrendingUp size={20} />
+                <h4 style={{ fontSize: '1.3rem', color: '#fff', margin: 0 }}>
+                  BOUCLE VERTUEUSE : DE LA VEILLE AUX PROJETS DU PORTFOLIO
+                </h4>
+              </div>
+
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.6, marginBottom: '1.5rem' }}>
+                L'alignement entre ma veille et ma feuille de route crée un écosystème d'apprentissage autonome. La veille ne reste jamais passive : elle se convertit systématiquement en compétence technique, puis en création plastique pour enrichir le portfolio.
+              </p>
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
+                <div style={{ background: '#0a0b0e', borderLeft: '3px solid var(--accent-color)', padding: '1rem' }}>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--accent-color)', fontWeight: 'bold' }}>1. VEILLE ACTIVE</div>
+                  <div style={{ fontSize: '0.85rem', color: '#ddd', marginTop: '0.3rem' }}>Identification des évolutions de l'IA générative et des attentes en design d'interaction.</div>
+                </div>
+                <div style={{ background: '#0a0b0e', borderLeft: '3px solid #ffb74d', padding: '1rem' }}>
+                  <div style={{ fontSize: '0.75rem', color: '#ffb74d', fontWeight: 'bold' }}>2. ANALYSE CRITIQUE</div>
+                  <div style={{ fontSize: '0.85rem', color: '#ddd', marginTop: '0.3rem' }}>Repérage précis des compétences à approfondir (interfaces hybrides, typographie avancée).</div>
+                </div>
+                <div style={{ background: '#0a0b0e', borderLeft: '3px solid #ab47bc', padding: '1rem' }}>
+                  <div style={{ fontSize: '0.75rem', color: '#ab47bc', fontWeight: 'bold' }}>3. PROJETS CIBLÉS</div>
+                  <div style={{ fontSize: '0.85rem', color: '#ddd', marginTop: '0.3rem' }}>Mise en pratique dans des projets personnels et en stage (covers, prototypes Figma, vidéos ASNL).</div>
+                </div>
+                <div style={{ background: '#0a0b0e', borderLeft: '3px solid #00e676', padding: '1rem' }}>
+                  <div style={{ fontSize: '0.75rem', color: '#00e676', fontWeight: 'bold' }}>4. PORTFOLIO & ORAL</div>
+                  <div style={{ fontSize: '0.85rem', color: '#ddd', marginTop: '0.3rem' }}>Valorisation dans ce book et soutenance argumentée face au jury du Master Rennes 2.</div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </section>
 
@@ -944,9 +1324,9 @@ function App() {
                 <Search size={24} color="var(--accent-color)" />
               </div>
               <div style={{ color: 'var(--accent-color)', fontSize: '0.8rem', fontWeight: 'bold', marginBottom: '0.3rem' }}>VEILLE & CURATION ACTIVE</div>
-              <h4 style={{ fontSize: '1.4rem', marginBottom: '0.6rem', color: '#fff' }}>FEEDLY & GOOGLE ALERTS</h4>
+              <h4 style={{ fontSize: '1.4rem', marginBottom: '0.6rem', color: '#fff' }}>FEEDLY, ALERTS & LINKEDIN</h4>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', lineHeight: 1.6 }}>
-                Agrégation automatique de 25+ flux RSS spécialisés en design graphique, motion design et intelligence artificielle générative (mots-clés ciblés).
+                Méthode de veille active : curation manuelle régulière de flux RSS ciblés via Feedly, alertes par e-mail sur les mutations de l'IA créative et observation des studios rennais sur LinkedIn.
               </p>
             </div>
 

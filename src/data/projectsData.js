@@ -174,25 +174,25 @@ export const skillsList = [
     name: 'Graphisme & Identité',
     tools: 'Illustrator · Photoshop',
     desc: "Création d'affiches grand format, identités visuelles, covers d'albums et supports print/web.",
-    score: '95%'
+    status: 'Acquis BUT MMI'
   },
   {
     name: 'Montage Vidéo & Motion',
     tools: 'Premiere Pro · After Effects',
     desc: 'Montage rythmé, vidéo événementielle, formats courts (Reels/TikTok) et animations graphiques.',
-    score: '90%'
+    status: 'Validé en stage'
   },
   {
     name: 'Stratégie de Communication',
     tools: 'Canva · Notion · Réseaux',
     desc: 'Analyse des cibles (personas), planification éditoriale, community management et storytelling.',
-    score: '85%'
+    status: 'Acquis BUT MMI'
   },
   {
     name: 'Développement Web & UI',
     tools: 'HTML5 · CSS3 · JS · FlutterFlow · WordPress',
     desc: 'Intégration d’interfaces responsives, CMS WordPress et prototypage d’applications mobiles.',
-    score: '80%'
+    status: 'En perfectionnement'
   }
 ];
 
