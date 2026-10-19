@@ -387,7 +387,7 @@ function App() {
                   </div>
                   <p className="bento-highlight">{item.highlight}</p>
                   <div className="bento-tags-row">
-                    {item.tags.map((tag, tIdx) => (
+                    {(item.tags || []).map((tag, tIdx) => (
                       <span key={tIdx} className="bento-tag">#{tag}</span>
                     ))}
                   </div>
@@ -1241,7 +1241,7 @@ function App() {
                           Actions concrètes :
                         </strong>
                         <ul className="roadmap-actions-list">
-                          {st.concreteActions.map((act, idx) => (
+                          {(st.actions || st.concreteActions || []).map((act, idx) => (
                             <li key={idx} className="roadmap-action-item">
                               <ChevronRight size={14} color="var(--accent-color)" style={{ flexShrink: 0, marginTop: '2px' }} />
                               <span>{act}</span>
