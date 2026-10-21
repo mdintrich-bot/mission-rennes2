@@ -9,10 +9,8 @@ import {
   MonitorPlay, 
   ExternalLink, 
   Download, 
-  Eye, 
   Sparkles, 
   X, 
-  Play,
   Briefcase, 
   GraduationCap, 
   Calendar,
@@ -33,6 +31,10 @@ import {
 import { projects, experiences } from './data/projectsData';
 import { currentStateData, roadmapSteps } from './data/progressionData';
 import { veilleTools, verifiedStudy, researchAxes, veilleWorkflowSteps } from './data/veilleData';
+import { startScroll } from './lib/scroll';
+import { HeroSection } from './components/HeroSection';
+import { PortfolioRail } from './components/PortfolioRail';
+import { TrajectoryNancyRennes } from './components/TrajectoryNancyRennes';
 import './index.css';
 
 const navItems = [
@@ -76,7 +78,6 @@ const SectionHeader = ({ num, title, subtitle, rubricBadge }) => (
 
 function App() {
   const [activeSection, setActiveSection] = useState('hero');
-  const [selectedCategory, setSelectedCategory] = useState('ALL');
   const [activeModalProject, setActiveModalProject] = useState(null);
 
   // États interactifs pour les onglets bento et hub de veille
@@ -86,6 +87,10 @@ function App() {
 
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
+
+  useEffect(() => {
+    return startScroll();
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -105,10 +110,6 @@ function App() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const filteredProjects = selectedCategory === 'ALL'
-    ? projects
-    : projects.filter(p => p.category === selectedCategory || (selectedCategory === 'GRAPHISME' && p.category.includes('GRAPHISME')));
 
   return (
     <>
@@ -149,70 +150,7 @@ function App() {
         {/* ========================================================= */}
         {/* 00 HERO SECTION : MISSION, OBJECTIF & PROBLÉMATIQUE       */}
         {/* ========================================================= */}
-        <section id="hero" style={{ minHeight: '95vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.75rem', padding: '0.4rem 1rem', background: 'rgba(0, 240, 255, 0.08)', border: '1px solid rgba(0, 240, 255, 0.25)', marginBottom: '1.5rem', borderRadius: '2px' }}>
-              <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--accent-color)', boxShadow: '0 0 8px var(--accent-color)' }} />
-              <span style={{ fontSize: '0.85rem', letterSpacing: '0.15em', color: 'var(--accent-color)', fontWeight: 'bold' }}>
-                DOSSIER DE CANDIDATURE ACADÉMIQUE & STRATÉGIE PROFESSIONNELLE
-              </span>
-            </div>
-
-            <p className="hero-subtitle">MATHIS DINTRICH · BUT MMI NANCY-CHARLEMAGNE · PARCOURS CRÉATION NUMÉRIQUE</p>
-            <h1 className="hero-title">
-              OBJECTIF :<br/>
-              <span style={{ color: 'var(--accent-color)' }}>MASTER CRÉATION NUMÉRIQUE</span><br/>
-              <span style={{ fontSize: '0.55em', opacity: 0.9 }}>UNIVERSITÉ RENNES 2</span>
-            </h1>
-            
-            {/* Encadré Problématique Centrale */}
-            <div style={{ background: 'rgba(0, 240, 255, 0.04)', borderLeft: '4px solid var(--accent-color)', borderTop: '1px solid rgba(0, 240, 255, 0.2)', borderRight: '1px solid rgba(0, 240, 255, 0.2)', borderBottom: '1px solid rgba(0, 240, 255, 0.2)', padding: '1.5rem 1.8rem', margin: '2rem 0', maxWidth: '850px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: 'var(--accent-color)', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '0.5rem', letterSpacing: '0.12em' }}>
-                <Target size={18} /> PROBLÉMATIQUE CENTRALE DU PROJET
-              </div>
-              <p style={{ fontSize: '1.25rem', color: 'var(--text-primary)', lineHeight: 1.6, fontStyle: 'italic' }}>
-                « En quoi l’analyse critique des <strong>modalités d’admission</strong> au <strong>Master Création Numérique (Rennes 2)</strong> structure-t-elle la construction stratégique de mon parcours de formation, de mes choix de stages et de mon <strong>projet professionnel</strong> de futur Directeur Artistique et entrepreneur ? »
-              </p>
-            </div>
-
-            <div style={{ display: 'flex', gap: '1.2rem', flexWrap: 'wrap', marginTop: '1.5rem' }}>
-              <button 
-                className="btn-primary"
-                onClick={() => document.getElementById('rennes2')?.scrollIntoView({ behavior: 'smooth' })}
-              >
-                DÉCOUVRIR LE MASTER RENNES 2 <ArrowRight size={18} />
-              </button>
-              
-              <button 
-                className="btn-secondary"
-                onClick={() => document.getElementById('modalites')?.scrollIntoView({ behavior: 'smooth' })}
-              >
-                MODALITÉS D'ADMISSION <Eye size={18} />
-              </button>
-
-              <a 
-                href="./portfolio-images/CV_DINTRICH_MATHIS.pdf" 
-                target="_blank" 
-                rel="noreferrer"
-                className="btn-secondary"
-                style={{ borderColor: 'rgba(0, 240, 255, 0.4)', color: 'var(--text-primary)' }}
-              >
-                TÉLÉCHARGER LE CV (PDF) <Download size={18} color="var(--accent-color)" />
-              </a>
-            </div>
-
-            <div style={{ marginTop: '3.5rem', display: 'flex', alignItems: 'center', gap: '1rem', color: 'var(--accent-color)', fontSize: '0.85rem', letterSpacing: '0.2em' }}>
-              <span style={{ opacity: 0.8 }}>DÉCOUVRIR LE DOSSIER D'ADMISSION</span>
-              <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 1.6 }}>
-                ↓
-              </motion.div>
-            </div>
-          </motion.div>
-        </section>
+        <HeroSection />
 
         {/* ========================================================= */}
         {/* 01 PROFIL DU CANDIDAT & APTITUDES POUR LE MASTER          */}
@@ -870,6 +808,11 @@ function App() {
         </section>
 
         {/* ========================================================= */}
+        {/* TRAJECTOIRE ACADÉMIQUE & GÉOGRAPHIQUE NANCY -> RENNES 2    */}
+        {/* ========================================================= */}
+        <TrajectoryNancyRennes />
+
+        {/* ========================================================= */}
         {/* 07 DÉMARCHE DE VEILLE INFORMATIONNELLE (POINT 3 · 3 PTS)  */}
         {/* ========================================================= */}
         <section id="veille">
@@ -1379,103 +1322,7 @@ function App() {
         {/* ========================================================= */}
         {/* 10 DOSSIER DE TRAVAUX (BOOK INTERACTIF / PREUVES)         */}
         {/* ========================================================= */}
-        <section id="portfolio">
-          <SectionHeader 
-            num="10" 
-            title="LE DOSSIER DE TRAVAUX (BOOK)" 
-            subtitle="Sélection de travaux authentiques démontrant la maturité créative, la sensibilité visuelle et l'autonomie technique requises pour le Master."
-          />
-          
-          {/* Filter Pills */}
-          <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '2.5rem' }}>
-            {[
-              { id: 'ALL', label: 'TOUS LES TRAVAUX' },
-              { id: 'GRAPHISME', label: 'GRAPHISME & AFFICHES' },
-              { id: 'STAGES', label: 'STAGES PROFESSIONNELS' },
-              { id: 'COMMUNICATION', label: 'STRATÉGIE DE COM' },
-              { id: 'PHOTOGRAPHIE', label: 'PHOTOGRAPHIE' },
-              { id: 'AUDIOVISUEL', label: 'AUDIOVISUEL & VIDÉO' }
-            ].map(cat => (
-              <button
-                key={cat.id}
-                className={`filter-btn ${selectedCategory === cat.id ? 'active' : ''}`}
-                onClick={() => setSelectedCategory(cat.id)}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Projects Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', marginBottom: '3.5rem' }}>
-            {filteredProjects.map((proj) => (
-              <motion.div 
-                key={proj.id} 
-                layout
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                className="project-card"
-                onClick={() => setActiveModalProject(proj)}
-              >
-                <div className="img-wrapper">
-                  <img src={proj.image} alt={proj.title} loading="lazy" />
-                  {proj.isVideo && (
-                    <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0, 0, 0, 0.4)' }}>
-                      <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: 'rgba(0, 240, 255, 0.95)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 25px var(--accent-glow)' }}>
-                        <Play size={24} color="#050505" fill="#050505" style={{ marginLeft: '3px' }} />
-                      </div>
-                    </div>
-                  )}
-                  <div style={{ position: 'absolute', top: '0.75rem', right: '0.75rem', background: 'rgba(5, 5, 5, 0.85)', padding: '0.35rem 0.75rem', borderRadius: '2px', fontSize: '0.75rem', color: 'var(--accent-color)', fontWeight: 'bold', border: '1px solid rgba(0, 240, 255, 0.3)' }}>
-                    {proj.tag}
-                  </div>
-                </div>
-
-                <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-                    <span style={{ color: 'var(--accent-color)', fontSize: '0.8rem', letterSpacing: '0.1em', fontWeight: 'bold' }}>
-                      {proj.category}
-                    </span>
-                    <span style={{ color: '#777', fontSize: '0.8rem' }}>{proj.date}</span>
-                  </div>
-
-                  <h3 style={{ fontSize: '1.4rem', margin: '0.4rem 0 0.8rem', color: 'var(--text-primary)' }}>
-                    {proj.title}
-                  </h3>
-
-                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.5, marginBottom: '1.2rem', flexGrow: 1 }}>
-                    {proj.description}
-                  </p>
-
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '1rem', borderTop: '1px solid var(--border-color)' }}>
-                    <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
-                      {proj.tools.slice(0, 2).map((t, idx) => (
-                        <span key={idx} style={{ fontSize: '0.75rem', background: '#111', padding: '0.2rem 0.5rem', border: '1px solid #333', color: '#aaa' }}>
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem', color: 'var(--accent-color)', fontSize: '0.85rem', fontWeight: 'bold' }}>
-                      {proj.isVideo ? 'VOIR LA VIDÉO' : 'DÉTAILS'} {proj.isVideo ? <Play size={14} fill="currentColor" /> : <Eye size={14} />}
-                    </span>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a 
-              href="./portfolio-images/CV_DINTRICH_MATHIS.pdf" 
-              target="_blank" 
-              rel="noreferrer" 
-              className="btn-primary"
-            >
-              TÉLÉCHARGER LE CV COMPLET (PDF) <Download size={18} />
-            </a>
-          </div>
-        </section>
+        <PortfolioRail projects={projects} onSelectProject={setActiveModalProject} />
 
         {/* ========================================================= */}
         {/* LIGHTBOX MODAL                                             */}
