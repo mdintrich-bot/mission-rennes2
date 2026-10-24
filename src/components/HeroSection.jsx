@@ -39,42 +39,51 @@ export function HeroSection() {
 
     let targetTime = 0;
     let smoothTime = 0;
+    let lastFrameTime = 0;
 
     const applySeek = () => {
-      if (!video.seeking && Math.abs(video.currentTime - smoothTime) > 0.008) {
+      if (!video.seeking && Math.abs(video.currentTime - smoothTime) > 0.001) {
         video.currentTime = smoothTime;
       }
     };
 
     video.addEventListener('seeked', applySeek);
 
-    const unsubscribe = onFrame(() => {
+    const unsubscribe = onFrame((time) => {
+      const dt = lastFrameTime ? Math.min(0.1, (time - lastFrameTime) / 1000) : 1 / 60;
+      lastFrameTime = time;
+
       const root = rootRef.current;
       if (!root) return;
-      const { p, rect, vh } = pinProgress(root);
-      if (rect.bottom < -vh || rect.top > vh) return;
+      const { p, rect } = pinProgress(root);
+      if (rect.bottom < 0) return;
 
       const duration = video.duration;
       if (Number.isFinite(duration) && duration > 0) {
         targetTime = clamp(p, 0, 0.999) * duration;
-        smoothTime = lerp(smoothTime, targetTime, 0.25);
 
-        applySeek();
+        // Interpolation exponentielle indépendante des FPS (0.07 = amorti très doux et cinématographique)
+        const factor = 1 - Math.pow(1 - 0.07, dt * 60);
+        smoothTime = lerp(smoothTime, targetTime, factor);
+
+        // Seuil abaissé à 0.001s pour ne sauter aucune frame intermédiaire
+        if (!video.seeking && Math.abs(video.currentTime - smoothTime) > 0.001) {
+          video.currentTime = smoothTime;
+        }
       }
 
-      // 2. Disparition rapide et fluide des textes pour admirer la vidéo en pleine clarté
+      // Maintien du texte plus longtemps à l'écran avant la transition vers la section suivante
       if (contentRef.current) {
-        const fadeOut = 1 - range(p, 0.02, 0.20);
+        const fadeOut = 1 - range(p, 0.82, 0.98);
         contentRef.current.style.opacity = String(fadeOut);
-        contentRef.current.style.transform = `translate3d(0, ${-p * 20}vh, 0)`;
+        contentRef.current.style.transform = `translate3d(0, ${-p * 8}vh, 0)`;
         contentRef.current.style.pointerEvents = fadeOut <= 0.02 ? 'none' : 'auto';
       }
 
-      // Atténuation du voile sombre pour une visibilité cristalline de la vidéo
+      // Atténuation et transition du voile sombre
       if (overlayRef.current) {
-        const clearVideo = 1 - range(p, 0.02, 0.22) * 0.85;
-        const exitDarken = range(p, 0.88, 1.0) * 0.85;
-        overlayRef.current.style.opacity = String(Math.min(1, Math.max(0.15, clearVideo + exitDarken)));
+        const exitDarken = range(p, 0.85, 1.0) * 0.45;
+        overlayRef.current.style.opacity = String(Math.min(0.95, 0.5 + exitDarken));
       }
     });
 
@@ -89,7 +98,7 @@ export function HeroSection() {
       ref={rootRef}
       id="hero"
       className="relative full-bleed-pinned hero-scroll-section"
-      style={{ height: '320svh', padding: 0 }}
+      style={{ height: '550svh', padding: 0 }}
     >
       <div className="sticky top-0 h-screen-s overflow-hidden hero-sticky-container">
         {/* Vidéo de fond scrubbée au scroll */}

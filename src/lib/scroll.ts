@@ -11,7 +11,7 @@ export function startScroll(): () => void {
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (!reduced) {
-    lenis = new Lenis({lerp: 0.09, smoothWheel: true, wheelMultiplier: 0.9});
+    lenis = new Lenis({lerp: 0.07, smoothWheel: true, wheelMultiplier: 0.75});
   }
 
   let raf = 0;
