@@ -1,15 +1,16 @@
 import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Target, ArrowRight, Eye, Download } from 'lucide-react';
-import { clamp, lerp, pinProgress, range } from '../lib/math';
+import { clamp, pinProgress, range } from '../lib/math';
 import { onFrame } from '../lib/scroll';
+
+const TOTAL_FRAMES = 150;
 
 export function HeroSection() {
   const rootRef = useRef(null);
-  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
   const contentRef = useRef(null);
   const overlayRef = useRef(null);
-  const videoSrc = `${import.meta.env.BASE_URL}hero-video.mp4`;
 
   // Synchronisation plein écran sans débordement
   useEffect(() => {
@@ -26,70 +27,100 @@ export function HeroSection() {
   }, []);
 
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
+    const canvas = canvasRef.current;
+    const root = rootRef.current;
+    if (!canvas || !root) return;
+    const ctx = canvas.getContext('2d', { alpha: false });
+    if (!ctx) return;
 
-    // Forcer le premier rendu du frame 0 de la vidéo
-    video.pause();
-    try {
-      video.currentTime = 0.001;
-    } catch {
-      // ignore
-    }
+    // 1. Préchargement des frames WebP en RAM
+    const baseUrl = import.meta.env.BASE_URL || '/';
+    const images = new Array(TOTAL_FRAMES);
+    let lastDrawnProgress = -1;
 
-    let targetTime = 0;
-    let smoothTime = 0;
-    let lastFrameTime = 0;
+    const drawFrame = (progress) => {
+      const exactFrame = clamp(progress, 0, 1) * (TOTAL_FRAMES - 1);
+      const indexA = Math.floor(exactFrame);
+      const indexB = Math.min(TOTAL_FRAMES - 1, indexA + 1);
+      const blend = exactFrame - indexA; // Sous-frame entre 0 et 1
 
-    const applySeek = () => {
-      if (!video.seeking && Math.abs(video.currentTime - smoothTime) > 0.001) {
-        video.currentTime = smoothTime;
+      const imgA = images[indexA];
+      if (!imgA || !imgA.complete || imgA.naturalWidth === 0) return;
+
+      const cw = canvas.width;
+      const ch = canvas.height;
+      const iw = imgA.naturalWidth;
+      const ih = imgA.naturalHeight;
+
+      // Calcul du ratio "object-cover"
+      const scale = Math.max(cw / iw, ch / ih);
+      const dw = iw * scale;
+      const dh = ih * scale;
+      const dx = (cw - dw) * 0.5;
+      const dy = (ch - dh) * 0.5;
+
+      ctx.globalAlpha = 1;
+      ctx.drawImage(imgA, dx, dy, dw, dh);
+
+      // Interpolation inter-frame (fondu entre l'image actuelle et la suivante pour un ralenti ultra-lisse)
+      const imgB = images[indexB];
+      if (blend > 0.01 && indexB !== indexA && imgB && imgB.complete && imgB.naturalWidth > 0) {
+        ctx.globalAlpha = blend;
+        ctx.drawImage(imgB, dx, dy, dw, dh);
+        ctx.globalAlpha = 1;
       }
     };
 
-    video.addEventListener('seeked', applySeek);
+    for (let i = 0; i < TOTAL_FRAMES; i++) {
+      const img = new Image();
+      const num = String(i + 1).padStart(4, '0');
+      img.decoding = 'async';
+      img.src = `${baseUrl}hero-frames/frame_${num}.webp`;
+      if (i === 0) {
+        img.onload = () => drawFrame(0);
+      }
+      images[i] = img;
+    }
 
-    const unsubscribe = onFrame((time) => {
-      const dt = lastFrameTime ? Math.min(0.1, (time - lastFrameTime) / 1000) : 1 / 60;
-      lastFrameTime = time;
+    // 2. Redimensionnement Retina / DPR du Canvas
+    const syncSize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(canvas.clientWidth * dpr);
+      canvas.height = Math.round(canvas.clientHeight * dpr);
+      lastDrawnProgress = -1;
+      const { p } = pinProgress(root);
+      drawFrame(p);
+    };
+    syncSize();
+    const ro = new ResizeObserver(syncSize);
+    ro.observe(canvas);
 
-      const root = rootRef.current;
-      if (!root) return;
+    // 3. Synchronisation directe 1:1 avec Lenis dans la boucle rAF (zéro lag, zéro seeking)
+    const unsubscribe = onFrame(() => {
       const { p, rect } = pinProgress(root);
       if (rect.bottom < 0) return;
 
-      const duration = video.duration;
-      if (Number.isFinite(duration) && duration > 0) {
-        targetTime = clamp(p, 0, 0.999) * duration;
-
-        // Interpolation exponentielle indépendante des FPS (0.07 = amorti très doux et cinématographique)
-        const factor = 1 - Math.pow(1 - 0.07, dt * 60);
-        smoothTime = lerp(smoothTime, targetTime, factor);
-
-        // Seuil abaissé à 0.001s pour ne sauter aucune frame intermédiaire
-        if (!video.seeking && Math.abs(video.currentTime - smoothTime) > 0.001) {
-          video.currentTime = smoothTime;
-        }
+      if (Math.abs(p - lastDrawnProgress) > 0.0001) {
+        lastDrawnProgress = p;
+        drawFrame(p);
       }
 
-      // Maintien du texte plus longtemps à l'écran avant la transition vers la section suivante
       if (contentRef.current) {
-        const fadeOut = 1 - range(p, 0.82, 0.98);
+        const fadeOut = 1 - range(p, 0.8, 0.98);
         contentRef.current.style.opacity = String(fadeOut);
         contentRef.current.style.transform = `translate3d(0, ${-p * 8}vh, 0)`;
         contentRef.current.style.pointerEvents = fadeOut <= 0.02 ? 'none' : 'auto';
       }
 
-      // Atténuation et transition du voile sombre
       if (overlayRef.current) {
-        const exitDarken = range(p, 0.85, 1.0) * 0.45;
+        const exitDarken = range(p, 0.82, 1.0) * 0.45;
         overlayRef.current.style.opacity = String(Math.min(0.95, 0.5 + exitDarken));
       }
     });
 
     return () => {
+      ro.disconnect();
       unsubscribe();
-      video.removeEventListener('seeked', applySeek);
     };
   }, []);
 
@@ -98,22 +129,14 @@ export function HeroSection() {
       ref={rootRef}
       id="hero"
       className="relative full-bleed-pinned hero-scroll-section"
-      style={{ height: '550svh', padding: 0 }}
+      style={{ height: '500svh', padding: 0 }}
     >
       <div className="sticky top-0 h-screen-s overflow-hidden hero-sticky-container">
-        {/* Vidéo de fond scrubbée au scroll */}
-        <video
-          ref={videoRef}
-          src={videoSrc}
-          muted
-          playsInline
-          preload="auto"
-          className="absolute inset-0 size-full object-cover"
-          onLoadedMetadata={(e) => {
-            const v = e.currentTarget;
-            v.pause();
-            v.currentTime = 0.001;
-          }}
+        {/* Canvas Image-Sequence haute performance */}
+        <canvas
+          ref={canvasRef}
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 size-full"
         />
 
         {/* Voile sombre pour lisibilité initiale, s'éclaircit au scroll */}
