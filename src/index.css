@@ -1445,5 +1445,379 @@ body {
   background: rgba(255, 255, 255, 0.15);
 }
 
+/* ========================================================= */
+/* 01 LE CANDIDAT — MODERN BENTO UI & 3-PILLARS              */
+/* ========================================================= */
+.candidate-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(320px, 380px) 1fr;
+  gap: 2rem;
+  align-items: stretch;
+  margin-bottom: 2rem;
+}
+
+.candidate-portrait-card {
+  background: rgba(14, 15, 18, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 240, 255, 0.28);
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 240, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.candidate-portrait-card:hover {
+  border-color: rgba(0, 240, 255, 0.6);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 240, 255, 0.12);
+}
+
+.candidate-photo-frame {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  overflow: hidden;
+  background: #08090b;
+}
+
+.candidate-photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 0.5s ease;
+}
+
+.candidate-portrait-card:hover .candidate-photo-frame img {
+  transform: scale(1.03);
+}
+
+.candidate-photo-badge-top {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  right: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.candidate-status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(5, 5, 8, 0.85);
+  border: 1px solid rgba(0, 240, 255, 0.4);
+  padding: 0.3rem 0.75rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  backdrop-filter: blur(8px);
+  border-radius: 2px;
+}
+
+.candidate-pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-color);
+  box-shadow: 0 0 8px var(--accent-color);
+}
+
+.candidate-univ-chip {
+  background: rgba(5, 5, 8, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.3rem 0.65rem;
+  font-size: 0.72rem;
+  color: #fff;
+  letter-spacing: 0.08em;
+  backdrop-filter: blur(8px);
+  border-radius: 2px;
+}
+
+.candidate-photo-overlay-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2rem 1.25rem 1rem;
+  background: linear-gradient(to top, rgba(14, 15, 18, 0.98) 0%, rgba(14, 15, 18, 0.7) 60%, transparent 100%);
+  z-index: 2;
+}
+
+.candidate-name-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  line-height: 1.1;
+  text-transform: uppercase;
+  font-family: var(--font-heading);
+}
+
+.candidate-role-sub {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--accent-color);
+  margin-top: 0.35rem;
+  text-transform: uppercase;
+}
+
+.candidate-info-block {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  background: rgba(14, 15, 18, 0.95);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.candidate-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.candidate-meta-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.candidate-meta-pill {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.6rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  border-radius: 2px;
+}
+
+/* Academic Vision Card */
+.candidate-vision-card {
+  background: rgba(14, 15, 18, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 4px solid var(--accent-color);
+  border-radius: 4px;
+  padding: 2.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.candidate-vision-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--accent-color);
+  text-transform: uppercase;
+  margin-bottom: 0.85rem;
+}
+
+.candidate-vision-heading {
+  font-size: clamp(1.4rem, 2vw, 1.95rem);
+  color: var(--text-primary);
+  font-family: var(--font-heading);
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+  margin-bottom: 1.25rem;
+}
+
+.candidate-vision-text {
+  color: var(--text-secondary);
+  line-height: 1.75;
+  font-size: 1.02rem;
+  margin-bottom: 1.25rem;
+}
+
+.candidate-vision-text strong {
+  color: #fff;
+}
+
+.candidate-manifesto-quote {
+  background: rgba(0, 240, 255, 0.03);
+  border-left: 3px solid var(--accent-color);
+  border-top: 1px solid rgba(0, 240, 255, 0.15);
+  border-right: 1px solid rgba(0, 240, 255, 0.15);
+  border-bottom: 1px solid rgba(0, 240, 255, 0.15);
+  padding: 1rem 1.25rem;
+  margin: 1.25rem 0;
+  font-style: italic;
+  font-size: 0.94rem;
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+.candidate-tags-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.candidate-tag-chip {
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 0.3rem 0.7rem;
+  background: rgba(0, 240, 255, 0.08);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  color: var(--accent-color);
+  border-radius: 2px;
+  letter-spacing: 0.04em;
+}
+
+/* 3 Pillars Section */
+.candidate-pillars-wrapper {
+  margin-top: 1.5rem;
+  margin-bottom: 3.5rem;
+}
+
+.candidate-pillars-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.candidate-pillars-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--accent-color);
+  text-transform: uppercase;
+}
+
+.candidate-pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.candidate-pillar-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.candidate-pillar-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0, 240, 255, 0.4);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 240, 255, 0.08);
+}
+
+.candidate-pillar-card.pillar-foot:hover {
+  border-color: rgba(0, 240, 255, 0.6);
+}
+
+.candidate-pillar-card.pillar-rap:hover {
+  border-color: rgba(171, 71, 188, 0.6);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5), 0 0 20px rgba(171, 71, 188, 0.12);
+}
+
+.candidate-pillar-card.pillar-design:hover {
+  border-color: rgba(0, 230, 118, 0.6);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 230, 118, 0.12);
+}
+
+.candidate-pillar-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.candidate-pillar-icon-box {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.candidate-pillar-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 0.25rem 0.55rem;
+  border-radius: 2px;
+  text-transform: uppercase;
+}
+
+.candidate-pillar-h3 {
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  font-family: var(--font-heading);
+  letter-spacing: 0.04em;
+  margin-bottom: 0.35rem;
+}
+
+.candidate-pillar-sub {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+}
+
+.candidate-pillar-p {
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+  flex-grow: 1;
+}
+
+.candidate-pillar-footer-tag {
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 0.35rem 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 2px;
+  display: inline-block;
+}
+
+@media (max-width: 960px) {
+  .candidate-hero-grid {
+    grid-template-columns: 1fr;
+  }
+  .candidate-pillars-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 
 

@@ -7,9 +7,8 @@ const CATEGORIES = [
   { id: 'ALL', label: 'TOUS LES TRAVAUX' },
   { id: 'GRAPHISME', label: 'GRAPHISME & AFFICHES' },
   { id: 'STAGES', label: 'STAGES PROFESSIONNELS' },
-  { id: 'COMMUNICATION', label: 'STRATÉGIE DE COM' },
-  { id: 'PHOTOGRAPHIE', label: 'PHOTOGRAPHIE' },
   { id: 'AUDIOVISUEL', label: 'AUDIOVISUEL & VIDÉO' },
+  { id: 'PHOTOGRAPHIE', label: 'PHOTOGRAPHIE' },
 ];
 
 export function PortfolioRail({ projects, onSelectProject }) {

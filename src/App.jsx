@@ -52,19 +52,13 @@ const navItems = [
   { id: 'conclusion', label: '11 / PERSPECTIVES' },
 ];
 
-const SectionHeader = ({ num, title, subtitle, rubricBadge }) => (
+const SectionHeader = ({ num, title, subtitle }) => (
   <motion.div 
     initial={{ opacity: 0, x: -40 }}
     whileInView={{ opacity: 1, x: 0 }}
     viewport={{ once: true, margin: "-100px" }}
     style={{ marginBottom: '3rem' }}
   >
-    {rubricBadge && (
-      <div className="rubric-badge">
-        <span className="rubric-score">{rubricBadge.score}</span>
-        <span>{rubricBadge.text}</span>
-      </div>
-    )}
     <h2 className="section-title">
       {num} — <span>{title}</span>
     </h2>
@@ -162,75 +156,190 @@ function App() {
             subtitle="Profil académique et créatif de Mathis Dintrich : adéquation de mes aptitudes avec les exigences du Master."
           />
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2.5rem', alignItems: 'center', marginBottom: '3.5rem' }}>
-            
+          <div className="candidate-hero-grid">
             {/* Real Portrait Card */}
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className="card glass-panel"
-              style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.5rem', border: '1px solid rgba(0, 240, 255, 0.3)' }}
+              className="candidate-portrait-card"
             >
-              <div style={{ position: 'relative', width: '100%', height: '420px', overflow: 'hidden', background: '#0a0a0c', border: '1px solid var(--border-color)' }}>
+              <div className="candidate-photo-frame">
+                <div className="candidate-photo-badge-top">
+                  <span className="candidate-status-chip">
+                    <span className="candidate-pulse-dot" /> CANDIDAT MASTER
+                  </span>
+                  <span className="candidate-univ-chip">
+                    RENNES 2 · 2026-2028
+                  </span>
+                </div>
+
                 <img 
                   src="./portfolio-images/IMG_7196-768x1024.png" 
-                  alt="Mathis Dintrich" 
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  alt="Mathis Dintrich — Candidat Master Création Numérique" 
                 />
-                <div style={{ position: 'absolute', bottom: '1rem', left: '1rem', background: 'rgba(5, 5, 5, 0.85)', padding: '0.5rem 1rem', borderLeft: '3px solid var(--accent-color)', backdropFilter: 'blur(4px)' }}>
-                  <div style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>MATHIS DINTRICH</div>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--accent-color)', letterSpacing: '0.1em' }}>19 ANS · ÉTUDIANT CANDIDAT MASTER</div>
+
+                <div className="candidate-photo-overlay-bottom">
+                  <div className="candidate-name-title">MATHIS DINTRICH</div>
+                  <div className="candidate-role-sub">19 ANS · ÉTUDIANT BUT MMI NANCY-CHARLEMAGNE</div>
                 </div>
               </div>
 
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
-                <span>BUT MMI Nancy-Charlemagne</span>
-                <span style={{ color: 'var(--accent-color)', fontWeight: 'bold' }}>Spécialité Création Numérique</span>
+              <div className="candidate-info-block">
+                <div className="candidate-meta-row">
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#fff' }}>
+                    <GraduationCap size={16} color="var(--accent-color)" /> Formation en cours
+                  </span>
+                  <span style={{ color: 'var(--accent-color)', fontWeight: 'bold' }}>
+                    Spécialité Création Numérique
+                  </span>
+                </div>
+
+                <div className="candidate-meta-pills">
+                  <span className="candidate-meta-pill">🎯 Vocation : Direction Artistique</span>
+                  <span className="candidate-meta-pill">💼 Format : Alternance 24 mois</span>
+                  <span className="candidate-meta-pill">📍 Mobilité : Bassin Rennais</span>
+                </div>
               </div>
             </motion.div>
 
-            {/* Bio & Candidate Pillars */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-              <div className="card" style={{ borderLeft: '4px solid var(--accent-color)' }}>
-                <h3 style={{ fontSize: '1.8rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>
+            {/* Academic Vision Card */}
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="candidate-vision-card"
+            >
+              <div>
+                <div className="candidate-vision-eyebrow">
+                  <Sparkles size={16} /> POSITIONNEMENT ACADÉMIQUE & ARTISTIQUE
+                </div>
+                <h3 className="candidate-vision-heading">
                   UN PROFIL TAILLÉ POUR LE MASTER CRÉATION NUMÉRIQUE
                 </h3>
-                <p style={{ color: 'var(--text-secondary)', lineHeight: 1.7, fontSize: '1.05rem', marginBottom: '1rem' }}>
+                <p className="candidate-vision-text">
                   Étudiant en 2e année de BUT Métiers du Multimédia et de l’Internet (MMI) à l’IUT Nancy-Charlemagne, j’ai orienté l’ensemble de mon cursus vers le parcours <strong>Création Numérique</strong> avec une seule ambition : intégrer le <strong>Master Création Numérique de l’Université Rennes 2</strong>.
                 </p>
-                <p style={{ color: 'var(--text-secondary)', lineHeight: 1.7, fontSize: '1.05rem' }}>
+                <p className="candidate-vision-text">
                   Loin de me cantonner à l’exécution technique, je développe une vision globale combinant <strong>direction artistique, rigueur sémiologique et culture technologique</strong>. Mon profil répond directement aux attendus universitaires d’un cursus de recherche-création de haut niveau.
                 </p>
-              </div>
 
-              {/* 3 Pillars tied to Master requirements */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
-                <div className="card" style={{ padding: '1.25rem' }}>
-                  <div style={{ fontSize: '1.3rem', marginBottom: '0.5rem' }}>⚽ RIGUEUR TACTIQUE</div>
-                  <div style={{ color: 'var(--accent-color)', fontSize: '0.85rem', fontWeight: 'bold', marginBottom: '0.4rem' }}>12 ANS DE FOOTBALL</div>
-                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', lineHeight: 1.5 }}>
-                    Milieu de terrain : vision d’ensemble, anticipation des mouvements collectifs, résistance aux contraintes de temps et discipline indispensables pour la gestion de projet en Master.
-                  </p>
-                </div>
-
-                <div className="card" style={{ padding: '1.25rem' }}>
-                  <div style={{ fontSize: '1.3rem', marginBottom: '0.5rem' }}>🎤 CULTURE URBAINE & RAP</div>
-                  <div style={{ color: 'var(--accent-color)', fontSize: '0.85rem', fontWeight: 'bold', marginBottom: '0.4rem' }}>DIRECTION ARTISTIQUE</div>
-                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', lineHeight: 1.5 }}>
-                    Sensibilité aiguë aux identités visuelles fortes, au cover art, à la scénographie de marque et à la narration visuelle contemporaine qui nourrissent ma recherche plastique.
-                  </p>
-                </div>
-
-                <div className="card" style={{ padding: '1.25rem' }}>
-                  <div style={{ fontSize: '1.3rem', marginBottom: '0.5rem' }}>🎨 PASSION DESIGN & VIDÉO</div>
-                  <div style={{ color: 'var(--accent-color)', fontSize: '0.85rem', fontWeight: 'bold', marginBottom: '0.4rem' }}>PRATIQUE CONTINUE</div>
-                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', lineHeight: 1.5 }}>
-                    Maîtrise quotidienne de la Suite Adobe CC (Photoshop, Illustrator, Premiere Pro, After Effects) et curiosité pour l’IA générative appliquée aux workflows de création.
-                  </p>
+                <div className="candidate-manifesto-quote">
+                  « Conjuguer la rigueur sémiotique de l'analyse visuelle et l'énergie du graphisme contemporain pour concevoir des identités de marque et des récits visuels doués de sens. »
                 </div>
               </div>
 
+              <div className="candidate-tags-cluster">
+                <span className="candidate-tag-chip">#DirectionArtistique</span>
+                <span className="candidate-tag-chip">#SémiologieVisuelle</span>
+                <span className="candidate-tag-chip">#Audiovisuel & Montage</span>
+                <span className="candidate-tag-chip">#RechercheCréation</span>
+                <span className="candidate-tag-chip">#WorkflowsHybrides</span>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* 3 Pillars of the Candidate — Clean full-width 3-columns grid */}
+          <div className="candidate-pillars-wrapper">
+            <div className="candidate-pillars-header">
+              <div className="candidate-pillars-title">
+                <Workflow size={17} /> LES 3 PILIERS FONDAMENTAUX DU PROFIL
+              </div>
+              <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
+                DISCIPLINE COLLECTIVE · IDENTITÉ VISUELLE · AUTONOMIE TECHNIQUE
+              </div>
+            </div>
+
+            <div className="candidate-pillars-grid">
+              {/* Pillar 1 : Sport & Discipline */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3, delay: 0.05 }}
+                className="candidate-pillar-card pillar-foot"
+              >
+                <div>
+                  <div className="candidate-pillar-top">
+                    <div className="candidate-pillar-icon-box" style={{ borderColor: 'rgba(0, 240, 255, 0.3)', background: 'rgba(0, 240, 255, 0.05)' }}>
+                      ⚽
+                    </div>
+                    <span className="candidate-pillar-badge" style={{ background: 'rgba(0, 240, 255, 0.1)', color: 'var(--accent-color)', border: '1px solid rgba(0, 240, 255, 0.3)' }}>
+                      DISCIPLINE & TACTIQUE
+                    </span>
+                  </div>
+                  <h4 className="candidate-pillar-h3">RIGUEUR TACTIQUE</h4>
+                  <div className="candidate-pillar-sub" style={{ color: 'var(--accent-color)' }}>
+                    12 ANS DE FOOTBALL EN CLUB
+                  </div>
+                  <p className="candidate-pillar-p">
+                    Milieu de terrain : vision d’ensemble, anticipation des mouvements collectifs, résistance aux contraintes de temps et discipline indispensables pour la gestion de projet et le travail en équipe en Master.
+                  </p>
+                </div>
+                <div>
+                  <span className="candidate-pillar-footer-tag">#MilieuDeTerrain · #VisionGlobale · #Discipline</span>
+                </div>
+              </motion.div>
+
+              {/* Pillar 2 : Music & DA */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3, delay: 0.1 }}
+                className="candidate-pillar-card pillar-rap"
+              >
+                <div>
+                  <div className="candidate-pillar-top">
+                    <div className="candidate-pillar-icon-box" style={{ borderColor: 'rgba(171, 71, 188, 0.3)', background: 'rgba(171, 71, 188, 0.05)' }}>
+                      🎤
+                    </div>
+                    <span className="candidate-pillar-badge" style={{ background: 'rgba(171, 71, 188, 0.12)', color: '#ce93d8', border: '1px solid rgba(171, 71, 188, 0.35)' }}>
+                      SENSIBILITÉ GRAPHIQUE
+                    </span>
+                  </div>
+                  <h4 className="candidate-pillar-h3">CULTURE URBAINE & RAP</h4>
+                  <div className="candidate-pillar-sub" style={{ color: '#ce93d8' }}>
+                    DIRECTION ARTISTIQUE & COVER ART
+                  </div>
+                  <p className="candidate-pillar-p">
+                    Sensibilité aiguë aux identités visuelles fortes, au cover art, à la scénographie de marque et à la narration visuelle contemporaine qui nourrissent quotidiennement ma démarche plastique d'auteur.
+                  </p>
+                </div>
+                <div>
+                  <span className="candidate-pillar-footer-tag">#CoverArt · #Typographie · #Scénographie</span>
+                </div>
+              </motion.div>
+
+              {/* Pillar 3 : Tools & Video */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3, delay: 0.15 }}
+                className="candidate-pillar-card pillar-design"
+              >
+                <div>
+                  <div className="candidate-pillar-top">
+                    <div className="candidate-pillar-icon-box" style={{ borderColor: 'rgba(0, 230, 118, 0.3)', background: 'rgba(0, 230, 118, 0.05)' }}>
+                      🎨
+                    </div>
+                    <span className="candidate-pillar-badge" style={{ background: 'rgba(0, 230, 118, 0.12)', color: '#69f0ae', border: '1px solid rgba(0, 230, 118, 0.35)' }}>
+                      TECHNIQUE & LOGICIELS
+                    </span>
+                  </div>
+                  <h4 className="candidate-pillar-h3">PASSION DESIGN & VIDÉO</h4>
+                  <div className="candidate-pillar-sub" style={{ color: '#69f0ae' }}>
+                    PRATIQUE CONTINUE & WORKFLOWS IA
+                  </div>
+                  <p className="candidate-pillar-p">
+                    Maîtrise quotidienne de la Suite Adobe CC (Photoshop, Illustrator, Premiere Pro, After Effects) et curiosité critique pour l’IA générative appliquée aux pipelines de création graphique et audiovisuelle.
+                  </p>
+                </div>
+                <div>
+                  <span className="candidate-pillar-footer-tag">#SuiteAdobe · #PremierePro · #IAGénérative</span>
+                </div>
+              </motion.div>
             </div>
           </div>
 
@@ -467,14 +576,13 @@ function App() {
         </section>
 
         {/* ========================================================= */}
-        {/* 04 MODALITÉS D'ADMISSION (POINT 1 DU BARÈME · 3 POINTS)   */}
+        {/* 04 MODALITÉS D'ADMISSION                                   */}
         {/* ========================================================= */}
         <section id="modalites">
           <SectionHeader 
             num="04" 
             title="ANALYSE DES MODALITÉS D’ADMISSION" 
             subtitle="Compréhension exhaustive des 4 critères d’admission du Master Création Numérique (Rennes 2) et mise en perspective avec le projet professionnel."
-            rubricBadge={{ score: "3 POINTS", text: "Point 1 du barème universitaire" }}
           />
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))', gap: '1.8rem', marginBottom: '3rem' }}>
@@ -599,14 +707,13 @@ function App() {
         </section>
 
         {/* ========================================================= */}
-        {/* 05 LIEN ENTRE ADMISSION ET PROJET PRO (POINT 2 · 4 POINTS) */}
+        {/* 05 LIEN ENTRE ADMISSION ET PROJET PRO                      */}
         {/* ========================================================= */}
         <section id="lien-projet">
           <SectionHeader 
             num="05" 
             title="LIEN ENTRE ADMISSIONS ET PROJET PRO" 
             subtitle="Explication claire de la manière dont les critères d'admission ont guidé mes choix de formation, de stages et d'opportunités professionnelles."
-            rubricBadge={{ score: "4 POINTS", text: "Point 2 du barème universitaire" }}
           />
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', marginBottom: '3rem' }}>
@@ -813,14 +920,13 @@ function App() {
         <TrajectoryNancyRennes />
 
         {/* ========================================================= */}
-        {/* 07 DÉMARCHE DE VEILLE INFORMATIONNELLE (POINT 3 · 3 PTS)  */}
+        {/* 07 DÉMARCHE DE VEILLE INFORMATIONNELLE                     */}
         {/* ========================================================= */}
         <section id="veille">
           <SectionHeader 
             num="07" 
             title="DÉMARCHE DE VEILLE INFORMATIONNELLE" 
             subtitle="Protocole de recherche raisonnée, analyse critique de l'IA et application concrète au Master Création Numérique."
-            rubricBadge={{ score: "3 POINTS", text: "Point 3 du barème universitaire" }}
           />
 
           <div className="veille-hub-box">
@@ -1099,14 +1205,13 @@ function App() {
         </section>
 
         {/* ========================================================= */}
-        {/* 08 MÉTHODOLOGIE & ROADMAP PROFESSIONNELLE (POINT 4 · 3 PTS)*/}
+        {/* 08 MÉTHODOLOGIE & ROADMAP PROFESSIONNELLE                  */}
         {/* ========================================================= */}
         <section id="methodologie">
           <SectionHeader 
             num="08" 
             title="MÉTHODOLOGIE ET PROGRESSION PROFESSIONNELLE" 
             subtitle="Feuille de route actionnable en 4 étapes concrètes : Consolider, Expérimenter, Valoriser et Candidater."
-            rubricBadge={{ score: "3 POINTS", text: "Point 4 du barème universitaire" }}
           />
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
@@ -1240,14 +1345,13 @@ function App() {
         </section>
 
         {/* ========================================================= */}
-        {/* 09 OUTILS NUMÉRIQUES ET USAGE PRATIQUE (POINT 5 · 3 PTS)  */}
+        {/* 09 OUTILS NUMÉRIQUES ET USAGE PRATIQUE                     */}
         {/* ========================================================= */}
         <section id="outils">
           <SectionHeader 
             num="09" 
             title="OUTILS NUMÉRIQUES ET UTILISATION PRATIQUE" 
             subtitle="Pertinence et emploi logique des outils numériques pour la veille, la gestion de projet, la création artistique et la présentation."
-            rubricBadge={{ score: "3 POINTS", text: "Point 5 du barème universitaire" }}
           />
 
           <div className="tools-showcase-grid">
@@ -1443,14 +1547,13 @@ function App() {
         </AnimatePresence>
 
         {/* ========================================================= */}
-        {/* 11 CONCLUSION ET PERSPECTIVES (POINT 6 DU BARÈME · 2 PTS) */}
+        {/* 11 CONCLUSION ET PERSPECTIVES                              */}
         {/* ========================================================= */}
         <section id="conclusion" style={{ minHeight: '85vh', textAlign: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
           <SectionHeader 
             num="11" 
             title="CONCLUSION & PERSPECTIVES" 
             subtitle="Clôture du projet : réponse claire à la problématique d'admission et perspectives d’évolution future."
-            rubricBadge={{ score: "2 POINTS", text: "Point 6 du barème universitaire" }}
           />
 
           <motion.div 

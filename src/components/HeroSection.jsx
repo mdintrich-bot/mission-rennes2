@@ -1,16 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Target, ArrowRight, Eye, Download } from 'lucide-react';
-import { lerp, pinProgress, range } from '../lib/math';
+import { clamp, lerp, pinProgress, range } from '../lib/math';
 import { onFrame } from '../lib/scroll';
-
-import heroVideoAsset from '../assets/hero-video.mp4';
 
 export function HeroSection() {
   const rootRef = useRef(null);
   const videoRef = useRef(null);
   const contentRef = useRef(null);
-  const videoSrc = heroVideoAsset || `${import.meta.env.BASE_URL}hero-video.mp4`;
+  const overlayRef = useRef(null);
+  const videoSrc = `${import.meta.env.BASE_URL}hero-video.mp4`;
 
   // Synchronisation plein écran sans débordement
   useEffect(() => {
@@ -39,43 +38,50 @@ export function HeroSection() {
     }
 
     let targetTime = 0;
-    let currentTime = 0;
+    let smoothTime = 0;
 
-    return onFrame(() => {
+    const applySeek = () => {
+      if (!video.seeking && Math.abs(video.currentTime - smoothTime) > 0.008) {
+        video.currentTime = smoothTime;
+      }
+    };
+
+    video.addEventListener('seeked', applySeek);
+
+    const unsubscribe = onFrame(() => {
       const root = rootRef.current;
-      if (!root || !video.duration) return;
+      if (!root) return;
       const { p, rect, vh } = pinProgress(root);
       if (rect.bottom < -vh || rect.top > vh) return;
 
-      // 1. Scrubbing complet et fluide de la vidéo de 0% à 100% de sa durée
-      // On atteint 100% de la durée à p = 0.82 pour que la totalité de la vidéo se lise entièrement avant que la section ne sorte
-      const videoP = range(p, 0, 0.82);
-      targetTime = videoP * video.duration;
+      const duration = video.duration;
+      if (Number.isFinite(duration) && duration > 0) {
+        targetTime = clamp(p, 0, 0.999) * duration;
+        smoothTime = lerp(smoothTime, targetTime, 0.25);
 
-      // Interpolation réactive pour rattraper tout scroll rapide sans à-coup
-      const dist = Math.abs(targetTime - currentTime);
-      const factor = dist > 2 ? 0.35 : 0.22;
-      currentTime = lerp(currentTime, targetTime, factor);
-
-      // Verrouillage précis à la fin pour garantir la lecture à 100%
-      if (videoP >= 0.98 && Math.abs(video.duration - currentTime) < 0.25) {
-        currentTime = video.duration;
-      }
-      if (videoP <= 0.005) {
-        currentTime = 0.001;
+        applySeek();
       }
 
-      if (Math.abs(video.currentTime - currentTime) > 0.003) {
-        video.currentTime = currentTime;
-      }
-
-      // 2. Animation douce du contenu existant du Hero au fil du scroll
+      // 2. Disparition rapide et fluide des textes pour admirer la vidéo en pleine clarté
       if (contentRef.current) {
-        const fadeOut = 1 - range(p, 0.72, 0.95);
+        const fadeOut = 1 - range(p, 0.02, 0.20);
         contentRef.current.style.opacity = String(fadeOut);
-        contentRef.current.style.transform = `translate3d(0, ${-p * 12}vh, 0)`;
+        contentRef.current.style.transform = `translate3d(0, ${-p * 20}vh, 0)`;
+        contentRef.current.style.pointerEvents = fadeOut <= 0.02 ? 'none' : 'auto';
+      }
+
+      // Atténuation du voile sombre pour une visibilité cristalline de la vidéo
+      if (overlayRef.current) {
+        const clearVideo = 1 - range(p, 0.02, 0.22) * 0.85;
+        const exitDarken = range(p, 0.88, 1.0) * 0.85;
+        overlayRef.current.style.opacity = String(Math.min(1, Math.max(0.15, clearVideo + exitDarken)));
       }
     });
+
+    return () => {
+      unsubscribe();
+      video.removeEventListener('seeked', applySeek);
+    };
   }, []);
 
   return (
@@ -101,8 +107,8 @@ export function HeroSection() {
           }}
         />
 
-        {/* Voile sombre pour lisibilité optimale du texte et ambiance cyber/dark */}
-        <div className="hero-dark-overlay absolute inset-0" />
+        {/* Voile sombre pour lisibilité initiale, s'éclaircit au scroll */}
+        <div ref={overlayRef} className="hero-dark-overlay absolute inset-0" />
 
         {/* Contenu textuel et interactif existant */}
         <div className="hero-content-viewport absolute inset-0 flex flex-col justify-center">

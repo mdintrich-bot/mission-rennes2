@@ -144,18 +144,6 @@ export const projects = [
     highlights: ['Créativité sonore et visuelle', 'Synchronisation précise', 'Travail d’équipe en BUT']
   },
   {
-    id: 'strategie-com',
-    title: 'Stratégie de Marque — Cahier des charges',
-    category: 'COMMUNICATION',
-    tag: 'Stratégie & Plan de Com',
-    date: 'Semestre 3 BUT MMI',
-    context: 'Étude de cas universitaire (Lego x Clash Royale)',
-    image: './portfolio-images/Strategie-de-communication-724x1024.png',
-    description: "Audit d'écosystèmes, définition des personas, positionnement de marque et élaboration d'un cahier des charges complet pour une campagne transmédia innovante.",
-    tools: ['Stratégie de marque', 'Storytelling', 'Planification éditoriale'],
-    highlights: ['Analyse de cible', 'Cohérence cross-canal', 'Dossier méthodologique']
-  },
-  {
     id: 'photo-long-pause',
     title: 'Photographie — Longue exposition nocturne',
     category: 'PHOTOGRAPHIE',
