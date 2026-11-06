@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import { 
   ChevronRight, 
@@ -36,7 +36,6 @@ import { HeroSection } from './components/HeroSection';
 import { PortfolioRail } from './components/PortfolioRail';
 import { TrajectoryNancyRennes } from './components/TrajectoryNancyRennes';
 import { CustomCursor } from './components/CustomCursor';
-import { BackgroundAtmosphere } from './components/BackgroundAtmosphere';
 import './index.css';
 
 const navItems = [
@@ -107,10 +106,30 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const bgRef = useRef(null);
+
+  useEffect(() => {
+    let ticking = false;
+    const handleMouseMove = (e) => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          if (bgRef.current) {
+            bgRef.current.style.setProperty('--mouse-x', `${e.clientX}px`);
+            bgRef.current.style.setProperty('--mouse-y', `${e.clientY}px`);
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
   return (
     <>
       <CustomCursor />
-      <BackgroundAtmosphere />
+      <div ref={bgRef} className="bg-grid" />
       
       {/* Top Reading Progress Bar */}
       <motion.div 
