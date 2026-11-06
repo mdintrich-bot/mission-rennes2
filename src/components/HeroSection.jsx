@@ -106,15 +106,21 @@ export function HeroSection() {
       }
 
       if (contentRef.current) {
-        const fadeOut = 1 - range(p, 0.8, 0.98);
+        // Disparition rapide dès le début du défilement pour laisser place à la vidéo
+        const fadeOut = 1 - range(p, 0.02, 0.16);
         contentRef.current.style.opacity = String(fadeOut);
-        contentRef.current.style.transform = `translate3d(0, ${-p * 8}vh, 0)`;
+        contentRef.current.style.transform = `translate3d(0, ${-range(p, 0, 0.16) * 50}px, 0)`;
         contentRef.current.style.pointerEvents = fadeOut <= 0.02 ? 'none' : 'auto';
       }
 
       if (overlayRef.current) {
-        const exitDarken = range(p, 0.82, 1.0) * 0.45;
-        overlayRef.current.style.opacity = String(Math.min(0.95, 0.5 + exitDarken));
+        // Le voile s'atténue quand le titre s'efface pour révéler la vidéo avec éclat,
+        // puis s'assombrit vers la fin (p > 0.85) pour une transition fluide vers la section suivante
+        const clearVideo = range(p, 0.02, 0.18);
+        const exitDarken = range(p, 0.85, 1.0);
+        const baseOpacity = 0.65 * (1 - clearVideo * 0.78);
+        const totalOpacity = baseOpacity + exitDarken * 0.8;
+        overlayRef.current.style.opacity = String(clamp(totalOpacity, 0, 0.95));
       }
     });
 
@@ -140,7 +146,7 @@ export function HeroSection() {
         />
 
         {/* Voile sombre pour lisibilité initiale, s'éclaircit au scroll */}
-        <div ref={overlayRef} className="hero-dark-overlay absolute inset-0" />
+        <div ref={overlayRef} className="hero-dark-overlay absolute inset-0" style={{ opacity: 0.65 }} />
 
         {/* Contenu textuel et interactif existant */}
         <div className="hero-content-viewport absolute inset-0 flex flex-col justify-center">

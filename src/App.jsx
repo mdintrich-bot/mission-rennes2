@@ -585,18 +585,18 @@ function App() {
             subtitle="Compréhension exhaustive des 4 critères d’admission du Master Création Numérique (Rennes 2) et mise en perspective avec le projet professionnel."
           />
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))', gap: '1.8rem', marginBottom: '3rem' }}>
+          <div className="criteria-grid">
             
             {/* Critère 1 : Académique */}
             <div className="criteria-card">
               <div className="criteria-header">
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: 'var(--accent-color)' }}>
-                  <GraduationCap size={26} />
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent-color)' }}>
+                  <GraduationCap size={24} />
                   <span style={{ fontSize: '0.8rem', letterSpacing: '0.12em', fontWeight: 'bold' }}>CRITÈRE 01</span>
                 </div>
-                <span style={{ fontSize: '0.75rem', background: '#222', padding: '0.2rem 0.5rem', color: '#aaa', border: '1px solid #333' }}>PRÉ-REQUIS</span>
+                <span className="criteria-badge">PRÉ-REQUIS</span>
               </div>
-              <h3 style={{ fontSize: '1.6rem', marginBottom: '0.8rem', color: 'var(--text-primary)' }}>
+              <h3 className="criteria-title">
                 CRITÈRES ACADÉMIQUES & THÉORIQUES
               </h3>
               
@@ -619,13 +619,13 @@ function App() {
             {/* Critère 2 : Professionnel */}
             <div className="criteria-card">
               <div className="criteria-header">
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: 'var(--accent-color)' }}>
-                  <Briefcase size={26} />
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent-color)' }}>
+                  <Briefcase size={24} />
                   <span style={{ fontSize: '0.8rem', letterSpacing: '0.12em', fontWeight: 'bold' }}>CRITÈRE 02</span>
                 </div>
-                <span style={{ fontSize: '0.75rem', background: '#222', padding: '0.2rem 0.5rem', color: '#aaa', border: '1px solid #333' }}>TERRAIN</span>
+                <span className="criteria-badge">TERRAIN</span>
               </div>
-              <h3 style={{ fontSize: '1.6rem', marginBottom: '0.8rem', color: 'var(--text-primary)' }}>
+              <h3 className="criteria-title">
                 EXPÉRIENCES PRO & ALTERNANCE
               </h3>
               
@@ -648,13 +648,13 @@ function App() {
             {/* Critère 3 : Portfolio / Tests */}
             <div className="criteria-card">
               <div className="criteria-header">
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: 'var(--accent-color)' }}>
-                  <Award size={26} />
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent-color)' }}>
+                  <Award size={24} />
                   <span style={{ fontSize: '0.8rem', letterSpacing: '0.12em', fontWeight: 'bold' }}>CRITÈRE 03</span>
                 </div>
-                <span style={{ fontSize: '0.75rem', background: '#222', padding: '0.2rem 0.5rem', color: '#aaa', border: '1px solid #333' }}>SÉLECTIF</span>
+                <span className="criteria-badge">SÉLECTIF</span>
               </div>
-              <h3 style={{ fontSize: '1.6rem', marginBottom: '0.8rem', color: 'var(--text-primary)' }}>
+              <h3 className="criteria-title">
                 DOSSIER DE TRAVAUX (PORTFOLIO / BOOK)
               </h3>
               
@@ -677,13 +677,13 @@ function App() {
             {/* Critère 4 : Entretien oral */}
             <div className="criteria-card">
               <div className="criteria-header">
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: 'var(--accent-color)' }}>
-                  <Target size={26} />
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent-color)' }}>
+                  <Target size={24} />
                   <span style={{ fontSize: '0.8rem', letterSpacing: '0.12em', fontWeight: 'bold' }}>CRITÈRE 04</span>
                 </div>
-                <span style={{ fontSize: '0.75rem', background: '#222', padding: '0.2rem 0.5rem', color: '#aaa', border: '1px solid #333' }}>ORAL DÉCISIF</span>
+                <span className="criteria-badge">ORAL DÉCISIF</span>
               </div>
-              <h3 style={{ fontSize: '1.6rem', marginBottom: '0.8rem', color: 'var(--text-primary)' }}>
+              <h3 className="criteria-title">
                 ENTRETIEN DE SÉLECTION DEVANT LE JURY
               </h3>
               
