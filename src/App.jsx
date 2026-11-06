@@ -36,6 +36,7 @@ import { HeroSection } from './components/HeroSection';
 import { PortfolioRail } from './components/PortfolioRail';
 import { TrajectoryNancyRennes } from './components/TrajectoryNancyRennes';
 import { CustomCursor } from './components/CustomCursor';
+import { BackgroundAtmosphere } from './components/BackgroundAtmosphere';
 import './index.css';
 
 const navItems = [
@@ -109,7 +110,7 @@ function App() {
   return (
     <>
       <CustomCursor />
-      <div className="bg-grid" />
+      <BackgroundAtmosphere />
       
       {/* Top Reading Progress Bar */}
       <motion.div 
