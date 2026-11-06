@@ -222,19 +222,47 @@ export function TrajectoryNancyRennes() {
               <circle r="5" fill="#fff" />
             </g>
 
-            {/* Labels des deux campus */}
-            <g fontFamily="var(--font-body), monospace" fontSize="12" letterSpacing="2" fill="#9ea3ae">
-              <text x={NANCY.cx} y={NANCY.cy + NANCY.r + 38} textAnchor="middle" fill="#f2e6c9" fontWeight="600">
+            {/* Labels des deux campus (positionnés nettement sous les orbites pour éviter tout chevauchement) */}
+            <g fontFamily="var(--font-body), monospace" fontSize="13" letterSpacing="2" fill="#9ea3ae">
+              <text
+                x={NANCY.cx}
+                y={NANCY.cy + 130}
+                textAnchor="middle"
+                fill="#f2e6c9"
+                fontWeight="700"
+                style={{ filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.9))' }}
+              >
                 IUT NANCY-CHARLEMAGNE
               </text>
-              <text x={NANCY.cx} y={NANCY.cy + NANCY.r + 58} textAnchor="middle" fontSize="10" opacity="0.7">
+              <text
+                x={NANCY.cx}
+                y={NANCY.cy + 152}
+                textAnchor="middle"
+                fontSize="11"
+                opacity="0.85"
+                style={{ filter: 'drop-shadow(0 2px 6px rgba(0, 0, 0, 0.9))' }}
+              >
                 48.68°N · 6.16°E
               </text>
 
-              <text x={RENNES.cx} y={RENNES.cy + RENNES.r + 38} textAnchor="middle" fill="#00F0FF" fontWeight="600">
+              <text
+                x={RENNES.cx}
+                y={RENNES.cy + 150}
+                textAnchor="middle"
+                fill="#00F0FF"
+                fontWeight="700"
+                style={{ filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.9))' }}
+              >
                 UNIVERSITÉ RENNES 2
               </text>
-              <text x={RENNES.cx} y={RENNES.cy + RENNES.r + 58} textAnchor="middle" fontSize="10" opacity="0.7">
+              <text
+                x={RENNES.cx}
+                y={RENNES.cy + 172}
+                textAnchor="middle"
+                fontSize="11"
+                opacity="0.85"
+                style={{ filter: 'drop-shadow(0 2px 6px rgba(0, 0, 0, 0.9))' }}
+              >
                 48.12°N · 1.70°W
               </text>
             </g>
