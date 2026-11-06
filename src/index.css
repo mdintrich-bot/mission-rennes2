@@ -115,6 +115,8 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 auto;
   padding: 0 2rem;
   padding-left: 7.5rem; /* Space for side nav dots */
+  position: relative;
+  z-index: 1;
 }
 
 @media (min-width: 1400px) {
@@ -234,100 +236,103 @@ section {
   height: 100vh;
   overflow: hidden;
   pointer-events: none;
-  z-index: -1;
+  z-index: 0;
   background-color: #06070a;
   --mouse-x: 50vw;
   --mouse-y: 50vh;
 }
 
-/* 1. Spotlight interactif suivant délicatement la souris */
+/* 1. Spotlight interactif haute luminosité suivant la souris */
 .bg-spotlight {
   position: absolute;
   inset: 0;
   background: radial-gradient(
     650px circle at var(--mouse-x, 50vw) var(--mouse-y, 50vh),
-    rgba(0, 240, 255, 0.075) 0%,
-    rgba(30, 80, 160, 0.025) 45%,
+    rgba(0, 240, 255, 0.16) 0%,
+    rgba(0, 140, 255, 0.06) 40%,
     transparent 75%
   );
   pointer-events: none;
   will-change: background;
 }
 
-/* 2. Nébuloses volumétriques animées */
+/* 2. Nébuloses volumétriques animées nettement visibles */
 .bg-nebula {
   position: absolute;
   border-radius: 50%;
-  filter: blur(120px);
+  filter: blur(85px);
   pointer-events: none;
   will-change: transform, opacity;
 }
 
 .bg-nebula-cyan {
-  width: 750px;
-  height: 750px;
-  top: -150px;
-  left: 10%;
-  background: radial-gradient(circle, rgba(0, 240, 255, 0.22) 0%, rgba(0, 240, 255, 0) 70%);
-  animation: float-nebula-cyan 22s ease-in-out infinite alternate;
+  width: 850px;
+  height: 850px;
+  top: -120px;
+  left: 5%;
+  background: radial-gradient(circle, rgba(0, 240, 255, 0.35) 0%, rgba(0, 160, 255, 0.16) 45%, transparent 75%);
+  animation: float-nebula-cyan 20s ease-in-out infinite alternate;
 }
 
 .bg-nebula-indigo {
-  width: 850px;
-  height: 850px;
-  bottom: -200px;
+  width: 900px;
+  height: 900px;
+  bottom: -150px;
   right: 5%;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.18) 0%, rgba(59, 130, 246, 0.12) 35%, rgba(99, 102, 241, 0) 70%);
-  animation: float-nebula-indigo 28s ease-in-out infinite alternate;
+  background: radial-gradient(circle, rgba(120, 80, 255, 0.32) 0%, rgba(70, 50, 200, 0.14) 45%, transparent 75%);
+  animation: float-nebula-indigo 25s ease-in-out infinite alternate;
 }
 
 .bg-nebula-emerald {
-  width: 600px;
-  height: 600px;
-  top: 45%;
-  right: 20%;
-  background: radial-gradient(circle, rgba(0, 230, 118, 0.1) 0%, rgba(0, 230, 118, 0) 70%);
-  animation: float-nebula-emerald 20s ease-in-out infinite alternate;
+  width: 700px;
+  height: 700px;
+  top: 40%;
+  right: 25%;
+  background: radial-gradient(circle, rgba(0, 230, 118, 0.2) 0%, rgba(0, 180, 140, 0.08) 50%, transparent 75%);
+  animation: float-nebula-emerald 22s ease-in-out infinite alternate;
 }
 
 @keyframes float-nebula-cyan {
   0% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(100px, 70px, 0) scale(1.15); }
-  100% { transform: translate3d(-50px, 120px, 0) scale(0.95); }
+  50% { transform: translate3d(120px, 80px, 0) scale(1.15); }
+  100% { transform: translate3d(-60px, 140px, 0) scale(0.95); }
 }
 
 @keyframes float-nebula-indigo {
   0% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(-80px, -80px, 0) scale(1.1); }
-  100% { transform: translate3d(60px, -50px, 0) scale(0.92); }
+  50% { transform: translate3d(-100px, -90px, 0) scale(1.1); }
+  100% { transform: translate3d(80px, -60px, 0) scale(0.92); }
 }
 
 @keyframes float-nebula-emerald {
   0% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(-60px, 80px, 0) scale(1.18); }
-  100% { transform: translate3d(70px, -60px, 0) scale(0.9); }
+  50% { transform: translate3d(-80px, 90px, 0) scale(1.18); }
+  100% { transform: translate3d(80px, -70px, 0) scale(0.9); }
 }
 
-/* 3. Grille technique cyber / architecturale */
+/* 3. Grille technique cyber haute définition avec intersections cyan */
 .bg-tech-grid {
   position: absolute;
   inset: 0;
   background-image:
-    /* Repères d'intersection néon cyan */
-    radial-gradient(circle, rgba(0, 240, 255, 0.25) 1.2px, transparent 1.2px),
-    /* Trame principale fine */
-    linear-gradient(to right, rgba(255, 255, 255, 0.028) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
-  background-size: 120px 120px, 40px 40px, 40px 40px;
-  background-position: 0 0, 0 0, 0 0;
-  opacity: 0.9;
+    /* Repères d'intersection néon cyan brillants */
+    radial-gradient(circle, rgba(0, 240, 255, 0.5) 1.5px, transparent 1.5px),
+    /* Trame d'accentuation cyan */
+    linear-gradient(to right, rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+    /* Trame fine structurelle */
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 80px 80px, 160px 160px, 160px 160px, 40px 40px, 40px 40px;
+  background-position: 0 0, 0 0, 0 0, 0 0, 0 0;
+  opacity: 0.95;
 }
 
 /* 4. Vignette d'accentuation centrale */
 .bg-vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 50% 50%, transparent 45%, rgba(6, 7, 10, 0.8) 100%);
+  background: radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(5, 6, 8, 0.75) 100%);
   pointer-events: none;
 }
 
@@ -336,7 +341,7 @@ section {
   position: absolute;
   inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
-  opacity: 0.45;
+  opacity: 0.5;
   mix-blend-mode: overlay;
   pointer-events: none;
 }
