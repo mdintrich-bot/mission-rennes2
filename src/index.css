@@ -1871,5 +1871,143 @@ body {
   }
 }
 
+/* ========================================================= */
+/* CUSTOM CYBER CURSOR & TRAIL (Master Création Numérique)   */
+/* ========================================================= */
+
+@media (pointer: fine) {
+  /* Masquer le curseur natif pour les périphériques précis */
+  body, a, button, [role="button"], input, select, textarea, .nav-dot, .card, .criteria-card, .rail-project-card {
+    cursor: none !important;
+  }
+}
+
+.cyber-cursor-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999999;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.cyber-cursor-wrapper.visible {
+  opacity: 1;
+}
+
+.cyber-cursor-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.cyber-cursor-dot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  margin-top: -4px;
+  margin-left: -4px;
+  border-radius: 50%;
+  background: var(--accent-color);
+  box-shadow: 0 0 10px var(--accent-color), 0 0 20px var(--accent-color);
+  pointer-events: none;
+  will-change: transform;
+  transition: width 0.2s ease, height 0.2s ease, margin 0.2s ease, background 0.2s ease;
+}
+
+.cyber-cursor-dot.hover {
+  width: 12px;
+  height: 12px;
+  margin-top: -6px;
+  margin-left: -6px;
+  background: #ffffff;
+  box-shadow: 0 0 14px #ffffff, 0 0 26px var(--accent-color);
+}
+
+.cyber-cursor-dot.clicking {
+  transform: scale(0.65);
+}
+
+.cyber-cursor-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  margin-top: -16px;
+  margin-left: -16px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(0, 240, 255, 0.45);
+  background: rgba(0, 240, 255, 0.03);
+  backdrop-filter: blur(1px);
+  pointer-events: none;
+  will-change: transform;
+  transition: border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Réticules aux 4 points cardinaux façon visée / direction artistique */
+.cyber-cursor-ring span {
+  position: absolute;
+  background: var(--accent-color);
+  opacity: 0.65;
+  transition: opacity 0.25s ease;
+}
+
+.cursor-reticle-top {
+  top: -5px;
+  left: 50%;
+  width: 1.5px;
+  height: 5px;
+  transform: translateX(-50%);
+}
+
+.cursor-reticle-bottom {
+  bottom: -5px;
+  left: 50%;
+  width: 1.5px;
+  height: 5px;
+  transform: translateX(-50%);
+}
+
+.cursor-reticle-left {
+  left: -5px;
+  top: 50%;
+  width: 5px;
+  height: 1.5px;
+  transform: translateY(-50%);
+}
+
+.cursor-reticle-right {
+  right: -5px;
+  top: 50%;
+  width: 5px;
+  height: 1.5px;
+  transform: translateY(-50%);
+}
+
+.cyber-cursor-ring.hover {
+  border-color: rgba(0, 240, 255, 0.9);
+  background: rgba(0, 240, 255, 0.1);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.35);
+}
+
+.cyber-cursor-ring.hover span {
+  opacity: 1;
+  background: #ffffff;
+}
+
+.cyber-cursor-ring.clicking {
+  border-color: #ffffff;
+  background: rgba(255, 255, 255, 0.15);
+}
+
 
 

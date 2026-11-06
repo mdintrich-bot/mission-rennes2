@@ -35,6 +35,7 @@ import { startScroll } from './lib/scroll';
 import { HeroSection } from './components/HeroSection';
 import { PortfolioRail } from './components/PortfolioRail';
 import { TrajectoryNancyRennes } from './components/TrajectoryNancyRennes';
+import { CustomCursor } from './components/CustomCursor';
 import './index.css';
 
 const navItems = [
@@ -107,6 +108,7 @@ function App() {
 
   return (
     <>
+      <CustomCursor />
       <div className="bg-grid" />
       
       {/* Top Reading Progress Bar */}
